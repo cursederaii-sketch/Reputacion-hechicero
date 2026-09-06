@@ -1689,7 +1689,21 @@
 
 <div class="aviso-guardado" id="aviso">Guardado.</div>
 
+<!-- Firebase (Realtime Database) — almacenamiento global compartido -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+
 <script>
+/* ---------- LOG GLOBAL DE ERRORES (para depurar) ---------- */
+window.addEventListener('error', (e) => {
+  console.error('[error global]', e.message, '@', (e.filename || '?') + ':' + e.lineno);
+});
+window.addEventListener('unhandledrejection', (e) => {
+  console.error('[promesa rechazada sin capturar]', e.reason);
+});
+console.log('[archivo] script principal cargado, iniciando...');
+
 const PREFIJO = 'hechicero:';
 const CLAVE_PERFIL = 'perfil-usuario';
 let expedientes = [];
@@ -1743,7 +1757,31 @@ function formatearRecompensa(monto) {
   return numero.toLocaleString('es-ES') + ' monedas de plata';
 }
 
-/* ---------- CAPA SEGURA DE ALMACENAMIENTO ---------- */
+/* ---------- CAPA SEGURA DE ALMACENAMIENTO (Firebase Realtime Database) ---------- */
+/* Lo "compartido" (compartido=true) vive en Firebase, en el nodo raíz "archivo",
+   así todos los que abran la página ven los mismos datos.
+   Lo personal (compartido=false, solo el perfil del usuario en este navegador)
+   se guarda en localStorage, porque no debe ser global. */
+
+const RAIZ_FIREBASE = 'archivo';
+let firebaseListo = false;
+
+try {
+  if (typeof firebase === 'undefined' || typeof db === 'undefined') {
+    throw new Error('Firebase no se inicializó (revisá que firebase-config.js esté cargado antes de este script).');
+  }
+  firebaseListo = true;
+  console.log('[firebase] SDK cargado, proyecto:', firebase.app().options.projectId);
+  db.ref('.info/connected').on('value', (snap) => {
+    const conectado = snap.val() === true;
+    console.log('[firebase] estado de conexión:', conectado ? 'conectado' : 'desconectado');
+    marcarEstadoAlmacenamiento(conectado);
+  });
+} catch (e) {
+  console.error('[firebase] Error de inicialización:', e);
+  marcarEstadoAlmacenamiento(false);
+}
+
 function marcarEstadoAlmacenamiento(ok) {
   const estado = document.getElementById('estadoAcceso');
   if (!estado) return;
@@ -1760,11 +1798,17 @@ function marcarEstadoAlmacenamiento(ok) {
 
 async function almacenListar(prefijo) {
   try {
-    const r = await window.storage.list(prefijo, true);
-    marcarEstadoAlmacenamiento(true);
-    return (r && Array.isArray(r.keys)) ? r.keys : [];
+    const snap = await db.ref(RAIZ_FIREBASE)
+      .orderByKey()
+      .startAt(prefijo)
+      .endAt(prefijo + '\uf8ff')
+      .once('value');
+    const val = snap.val() || {};
+    const claves = Object.keys(val);
+    console.log('[almacen] listar "' + prefijo + '" ->', claves.length, 'registro(s)');
+    return claves;
   } catch (e) {
-    console.error('No se pudo listar "' + prefijo + '":', e);
+    console.error('[almacen] No se pudo listar "' + prefijo + '":', e);
     marcarEstadoAlmacenamiento(false);
     return [];
   }
@@ -1772,29 +1816,54 @@ async function almacenListar(prefijo) {
 
 async function almacenObtener(clave, compartido) {
   try {
-    const r = await window.storage.get(clave, compartido);
-    return (r && typeof r.value === 'string') ? r.value : null;
+    if (!compartido) {
+      const valor = localStorage.getItem(clave);
+      console.log('[almacen] obtener (local) "' + clave + '" ->', valor ? 'encontrado' : 'vacío');
+      return valor;
+    }
+    const snap = await db.ref(RAIZ_FIREBASE + '/' + clave).once('value');
+    const valor = snap.val();
+    console.log('[almacen] obtener "' + clave + '" ->', valor !== null ? 'encontrado' : 'vacío');
+    return (typeof valor === 'string') ? valor : null;
   } catch (e) {
+    console.error('[almacen] No se pudo obtener "' + clave + '":', e);
+    marcarEstadoAlmacenamiento(false);
     return null;
   }
 }
 
 async function almacenGuardar(clave, valor, compartido) {
   try {
-    const r = await window.storage.set(clave, valor, compartido);
-    if (!r) { marcarEstadoAlmacenamiento(false); return false; }
+    if (!compartido) {
+      localStorage.setItem(clave, valor);
+      console.log('[almacen] guardar (local) "' + clave + '" OK');
+      return true;
+    }
+    await db.ref(RAIZ_FIREBASE + '/' + clave).set(valor);
+    console.log('[almacen] guardar "' + clave + '" OK (Firebase)');
     marcarEstadoAlmacenamiento(true);
     return true;
   } catch (e) {
-    console.error('No se pudo guardar "' + clave + '":', e);
+    console.error('[almacen] No se pudo guardar "' + clave + '":', e);
     marcarEstadoAlmacenamiento(false);
     return false;
   }
 }
 
 async function almacenEliminar(clave, compartido) {
-  try { await window.storage.delete(clave, compartido); return true; }
-  catch (e) { console.error('No se pudo eliminar "' + clave + '":', e); return false; }
+  try {
+    if (!compartido) {
+      localStorage.removeItem(clave);
+      console.log('[almacen] eliminar (local) "' + clave + '" OK');
+      return true;
+    }
+    await db.ref(RAIZ_FIREBASE + '/' + clave).remove();
+    console.log('[almacen] eliminar "' + clave + '" OK (Firebase)');
+    return true;
+  } catch (e) {
+    console.error('[almacen] No se pudo eliminar "' + clave + '":', e);
+    return false;
+  }
 }
 
 /* Redimensiona una imagen y la devuelve como data URL comprimida */
@@ -3542,14 +3611,21 @@ document.addEventListener('click', (e) => {
 
 /* ---------- INICIO ---------- */
 async function iniciar() {
-  await cargarExpedientes();
-  await cargarIncidentes();
-  await cargarEventos();
-  await cargarMuertesCiviles();
-  await cargarZonas();
-  await cargarMisiones();
-  await cargarPerfil();
-  renderMisiones();
+  console.log('[archivo] iniciar(): cargando datos...');
+  try {
+    await cargarExpedientes();
+    console.log('[archivo] expedientes cargados:', expedientes.length);
+    await cargarIncidentes();
+    await cargarEventos();
+    await cargarMuertesCiviles();
+    await cargarZonas();
+    await cargarMisiones();
+    await cargarPerfil();
+    renderMisiones();
+    console.log('[archivo] iniciar(): listo.');
+  } catch (e) {
+    console.error('[archivo] Error durante iniciar():', e);
+  }
 }
 iniciar();
 </script>
