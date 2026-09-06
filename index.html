@@ -1222,12 +1222,29 @@
             <input id="edad" type="number" min="0" placeholder="27" required>
           </div>
           <div class="campo">
-            <label for="rango">Grado de sello</label>
+            <label for="rango">Grado</label>
             <select id="rango">
-              <option>Sello Menor</option>
-              <option>Sello Mayor</option>
-              <option>Sello Prohibido</option>
-              <option>Sello Ancestral</option>
+              <option>Grado 4</option>
+              <option>Grado 3</option>
+              <option>Grado S-2</option>
+              <option>Grado 2</option>
+              <option>Grado S-1</option>
+              <option>Grado 1</option>
+              <option>Grado especial</option>
+              <option>Grado especial+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="fila-campos">
+          <div class="campo">
+            <label for="raza">Raza</label>
+            <select id="raza">
+              <option>Humano</option>
+              <option>Pintura de la muerte</option>
+              <option>Reencarnado</option>
+              <option>Maldición</option>
+              <option>Despertado</option>
             </select>
           </div>
         </div>
@@ -1329,10 +1346,22 @@
         <input id="buscar" placeholder="Buscar por nombre o técnica...">
         <select id="filtroRango">
           <option value="">Todos los grados</option>
-          <option>Sello Menor</option>
-          <option>Sello Mayor</option>
-          <option>Sello Prohibido</option>
-          <option>Sello Ancestral</option>
+          <option>Grado 4</option>
+          <option>Grado 3</option>
+          <option>Grado S-2</option>
+          <option>Grado 2</option>
+          <option>Grado S-1</option>
+          <option>Grado 1</option>
+          <option>Grado especial</option>
+          <option>Grado especial+</option>
+        </select>
+        <select id="filtroRaza">
+          <option value="">Todas las razas</option>
+          <option>Humano</option>
+          <option>Pintura de la muerte</option>
+          <option>Reencarnado</option>
+          <option>Maldición</option>
+          <option>Despertado</option>
         </select>
         <select id="filtroOrganizacion">
           <option value="">Todas las organizaciones</option>
@@ -1902,10 +1931,14 @@ function escaparHTML(str) {
 
 function colorRango(rango) {
   switch(rango) {
-    case 'Sello Menor': return '#A78BFA';
-    case 'Sello Mayor': return '#8B5CF6';
-    case 'Sello Prohibido': return '#7C3AED';
-    case 'Sello Ancestral': return '#5B21B6';
+    case 'Grado 4': return '#A78BFA';
+    case 'Grado 3': return '#8B94FA';
+    case 'Grado S-2': return '#60A5FA';
+    case 'Grado 2': return '#818CF8';
+    case 'Grado S-1': return '#7C3AED';
+    case 'Grado 1': return '#8B5CF6';
+    case 'Grado especial': return '#5B21B6';
+    case 'Grado especial+': return '#EF4444';
     default: return '#A78BFA';
   }
 }
@@ -2131,7 +2164,8 @@ function prepararFormularioEdicion(exp) {
   document.getElementById('idEdicion').value = exp.id;
   document.getElementById('nombre').value = exp.nombre || '';
   document.getElementById('edad').value = exp.edad || '';
-  document.getElementById('rango').value = exp.rango || 'Sello Menor';
+  document.getElementById('rango').value = exp.rango || 'Grado 4';
+  document.getElementById('raza').value = exp.raza || 'Humano';
   document.getElementById('tecnicas').value = (exp.tecnicas || []).join(', ');
   document.getElementById('estatus').value = exp.estatus || 'Activo';
   document.getElementById('organizacion').value = exp.organizacion || '';
@@ -2319,6 +2353,7 @@ formulario.addEventListener('submit', async (e) => {
   const nombre = document.getElementById('nombre').value.trim();
   const edad = document.getElementById('edad').value.trim();
   const rango = document.getElementById('rango').value;
+  const raza = document.getElementById('raza').value;
   const estatus = document.getElementById('estatus').value;
   const poder = document.getElementById('poder').value;
   const tecnicas = document.getElementById('tecnicas').value.split(',').map(t => t.trim()).filter(Boolean);
@@ -2337,7 +2372,7 @@ formulario.addEventListener('submit', async (e) => {
   if (editandoId) {
     const exp = expedientes.find(x => x.id === editandoId);
     const estatusAnterior = exp.estatus;
-    Object.assign(exp, { nombre, edad, rango, estatus, poder, tecnicas, notas, organizacion, fechaFallecimiento, causaMuerte, icono: imagenIconoTemp, banner: imagenBannerTemp, relaciones, esJefeClan, buscado, montoRecompensa, motivoBusqueda });
+    Object.assign(exp, { nombre, edad, rango, raza, estatus, poder, tecnicas, notas, organizacion, fechaFallecimiento, causaMuerte, icono: imagenIconoTemp, banner: imagenBannerTemp, relaciones, esJefeClan, buscado, montoRecompensa, motivoBusqueda });
     if (estatusAnterior !== estatus) {
       exp.historialEstatus = exp.historialEstatus || [{ estatus: estatusAnterior, fecha: exp.creado || Date.now() }];
       exp.historialEstatus.push({ estatus, fecha: Date.now() });
@@ -2350,7 +2385,7 @@ formulario.addEventListener('submit', async (e) => {
   } else {
     const exp = {
       id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
-      nombre, edad, rango, estatus, poder, tecnicas, notas, organizacion, fechaFallecimiento, causaMuerte,
+      nombre, edad, rango, raza, estatus, poder, tecnicas, notas, organizacion, fechaFallecimiento, causaMuerte,
       icono: imagenIconoTemp, banner: imagenBannerTemp, relaciones, esJefeClan, buscado, montoRecompensa, motivoBusqueda,
       creado: Date.now(),
       historialEstatus: [{ estatus, fecha: Date.now() }]
@@ -2366,6 +2401,7 @@ formulario.addEventListener('submit', async (e) => {
 
 document.getElementById('buscar').addEventListener('input', renderLista);
 document.getElementById('filtroRango').addEventListener('change', renderLista);
+document.getElementById('filtroRaza').addEventListener('change', renderLista);
 document.getElementById('filtroOrganizacion').addEventListener('change', renderLista);
 
 /* ---------- RENDER ---------- */
@@ -2387,14 +2423,16 @@ function poblarFiltroOrganizacion() {
 function expedientesFiltrados() {
   const busqueda = document.getElementById('buscar').value.trim().toLowerCase();
   const filtroRango = document.getElementById('filtroRango').value;
+  const filtroRaza = document.getElementById('filtroRaza').value;
   const filtroOrg = document.getElementById('filtroOrganizacion').value;
   return expedientes.filter(exp => {
     const coincideTexto = !busqueda ||
       exp.nombre.toLowerCase().includes(busqueda) ||
       (exp.tecnicas || []).some(t => t.toLowerCase().includes(busqueda));
     const coincideRango = !filtroRango || exp.rango === filtroRango;
+    const coincideRaza = !filtroRaza || exp.raza === filtroRaza;
     const coincideOrg = !filtroOrg || (exp.organizacion || '').trim() === filtroOrg;
-    return coincideTexto && coincideRango && coincideOrg;
+    return coincideTexto && coincideRango && coincideRaza && coincideOrg;
   });
 }
 
@@ -2536,7 +2574,7 @@ function renderResumen() {
     <div class="stat"><div class="num">${poderProm}</div><div class="etq">PODER PROMEDIO / 10</div></div>
   `;
 
-  const grados = ['Sello Menor', 'Sello Mayor', 'Sello Prohibido', 'Sello Ancestral'];
+  const grados = ['Grado 4', 'Grado 3', 'Grado S-2', 'Grado 2', 'Grado S-1', 'Grado 1', 'Grado especial', 'Grado especial+'];
   const desglose = document.getElementById('desgloseRango');
   if (total === 0) {
     desglose.innerHTML = '<div class="vacio" style="padding:20px;">Sin datos todavía.</div>';
