@@ -187,6 +187,52 @@
     font-size: 9.5px; letter-spacing: 0.03em; opacity: 0.75;
   }
 
+  /* ---------- CONSOLA DE ADMIN (visible solo desbloqueado) ---------- */
+  .boton-consola-admin {
+    display: none; width: 100%; text-align: left; margin-top: 8px;
+    background: rgba(0,0,0,0.2); border: 1px solid var(--verde-activo); color: var(--verde-activo);
+    font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 0.05em;
+    padding: 8px 10px; border-radius: 4px; cursor: pointer;
+  }
+  .boton-consola-admin.visible { display: block; }
+  .boton-consola-admin .contador-errores {
+    background: var(--rojo-peligro); color: #fff; border-radius: 8px;
+    padding: 0 6px; margin-left: 6px; font-size: 9px; display: none;
+  }
+  .boton-consola-admin .contador-errores.mostrar { display: inline-block; }
+
+  .panel-consola {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 500;
+    height: 46vh; max-height: 420px;
+    background: #0B0B0F; border-top: 1px solid var(--verde-activo);
+    display: none; flex-direction: column;
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
+  }
+  .panel-consola.abierto { display: flex; }
+  .panel-consola-cabecera {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px; border-bottom: 1px solid var(--linea);
+    font-family: 'Courier New', monospace; font-size: 11px; color: var(--pergamino-tenue);
+    flex-shrink: 0;
+  }
+  .panel-consola-cabecera .acciones-consola { display: flex; gap: 8px; }
+  .panel-consola-cabecera button {
+    background: rgba(255,255,255,0.06); border: 1px solid var(--linea); color: var(--pergamino);
+    font-family: 'Courier New', monospace; font-size: 10px; padding: 5px 9px; border-radius: 4px; cursor: pointer;
+  }
+  .panel-consola-cabecera button:hover { border-color: var(--pergamino-tenue); }
+  .panel-consola-cuerpo {
+    flex: 1; overflow-y: auto; padding: 8px 10px;
+    font-family: 'Courier New', monospace; font-size: 11px; line-height: 1.45;
+    -webkit-overflow-scrolling: touch;
+  }
+  .fila-log { padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.04); white-space: pre-wrap; word-break: break-word; }
+  .fila-log .hora-log { color: var(--pergamino-tenue); margin-right: 6px; }
+  .fila-log.log-info { color: #C9C9D1; }
+  .fila-log.log-warn { color: var(--amarillo-vigilancia); }
+  .fila-log.log-error { color: var(--rojo-peligro); }
+  .panel-consola-vacio { color: var(--pergamino-tenue); font-style: italic; }
+
   /* ---------- CONTRASEÑA / ACCESO ---------- */
   .boton-contrasena {
     display: block; width: 100%; text-align: left; margin-top: 12px;
@@ -1045,9 +1091,24 @@
     <div class="sidebar-pie">
       <div class="estado-acceso" id="estadoAcceso"><span class="punto"></span> Archivo sincronizado</div>
       <button type="button" class="boton-contrasena" id="botonContrasena">🔒 NIVEL DE ACCESO: RESTRINGIDO</button>
+      <button type="button" class="boton-consola-admin" id="botonConsolaAdmin">🖥️ CONSOLA <span class="contador-errores" id="contadorErroresConsola">0</span></button>
       <div class="atajos-pie">/ buscar · N nuevo · G+letra vista · Esc cerrar</div>
     </div>
   </aside>
+
+  <div class="panel-consola" id="panelConsola">
+    <div class="panel-consola-cabecera">
+      <span>🖥️ Consola — solo visible con acceso concedido</span>
+      <div class="acciones-consola">
+        <button type="button" id="botonCopiarConsola">Copiar todo</button>
+        <button type="button" id="botonLimpiarConsola">Limpiar</button>
+        <button type="button" id="botonCerrarConsola">Cerrar ✕</button>
+      </div>
+    </div>
+    <div class="panel-consola-cuerpo" id="cuerpoPanelConsola">
+      <div class="panel-consola-vacio">Sin registros todavía…</div>
+    </div>
+  </div>
 
   <div class="modal-overlay" id="overlayContrasena" style="display:none;">
     <div class="modal-contrasena">
@@ -1702,6 +1763,105 @@ window.addEventListener('error', (e) => {
 window.addEventListener('unhandledrejection', (e) => {
   console.error('[promesa rechazada sin capturar]', e.reason);
 });
+
+/* ---------- CONSOLA EN PANTALLA (solo para admin desbloqueado) ---------- */
+/* Útil en celu, donde no hay F12: captura console.log/warn/error y los
+   muestra en un panel dentro de la página, sin dejar de mandarlos también
+   a la consola real del navegador. */
+const registrosConsolaPantalla = [];
+const MAX_REGISTROS_CONSOLA = 300;
+let erroresSinVerConsola = 0;
+
+function formatearArgConsola(a) {
+  if (typeof a === 'string') return a;
+  try { return JSON.stringify(a); } catch { return String(a); }
+}
+
+function capturarParaPanel(tipo, args) {
+  const hora = new Date().toLocaleTimeString('es-ES', { hour12: false });
+  const texto = Array.from(args).map(formatearArgConsola).join(' ');
+  registrosConsolaPantalla.push({ tipo, hora, texto });
+  if (registrosConsolaPantalla.length > MAX_REGISTROS_CONSOLA) registrosConsolaPantalla.shift();
+  if (tipo === 'error') erroresSinVerConsola++;
+  renderPanelConsola();
+  actualizarContadorErroresConsola();
+}
+
+['log', 'warn', 'error'].forEach((metodo) => {
+  const original = console[metodo].bind(console);
+  console[metodo] = function (...args) {
+    original(...args);
+    capturarParaPanel(metodo, args);
+  };
+});
+
+function renderPanelConsola() {
+  const cuerpo = document.getElementById('cuerpoPanelConsola');
+  if (!cuerpo) return;
+  if (!registrosConsolaPantalla.length) {
+    cuerpo.innerHTML = '<div class="panel-consola-vacio">Sin registros todavía…</div>';
+    return;
+  }
+  const alFondo = cuerpo.scrollTop + cuerpo.clientHeight >= cuerpo.scrollHeight - 30;
+  cuerpo.innerHTML = registrosConsolaPantalla.map(r =>
+    '<div class="fila-log log-' + r.tipo + '"><span class="hora-log">' + r.hora + '</span>' +
+    r.texto.replace(/</g, '&lt;') + '</div>'
+  ).join('');
+  if (alFondo) cuerpo.scrollTop = cuerpo.scrollHeight;
+}
+
+function actualizarContadorErroresConsola() {
+  const badge = document.getElementById('contadorErroresConsola');
+  if (!badge) return;
+  if (erroresSinVerConsola > 0) {
+    badge.textContent = erroresSinVerConsola > 99 ? '99+' : String(erroresSinVerConsola);
+    badge.classList.add('mostrar');
+  } else {
+    badge.classList.remove('mostrar');
+  }
+}
+
+function mostrarBotonConsolaAdmin(mostrar) {
+  const boton = document.getElementById('botonConsolaAdmin');
+  if (boton) boton.classList.toggle('visible', !!mostrar);
+  if (!mostrar) {
+    const panel = document.getElementById('panelConsola');
+    if (panel) panel.classList.remove('abierto');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const botonConsola = document.getElementById('botonConsolaAdmin');
+  const panelConsola = document.getElementById('panelConsola');
+  if (botonConsola && panelConsola) {
+    botonConsola.addEventListener('click', () => {
+      panelConsola.classList.toggle('abierto');
+      if (panelConsola.classList.contains('abierto')) {
+        erroresSinVerConsola = 0;
+        actualizarContadorErroresConsola();
+        renderPanelConsola();
+      }
+    });
+  }
+  const botonCerrar = document.getElementById('botonCerrarConsola');
+  if (botonCerrar) botonCerrar.addEventListener('click', () => panelConsola.classList.remove('abierto'));
+  const botonLimpiar = document.getElementById('botonLimpiarConsola');
+  if (botonLimpiar) botonLimpiar.addEventListener('click', () => {
+    registrosConsolaPantalla.length = 0;
+    renderPanelConsola();
+  });
+  const botonCopiar = document.getElementById('botonCopiarConsola');
+  if (botonCopiar) botonCopiar.addEventListener('click', async () => {
+    const texto = registrosConsolaPantalla.map(r => '[' + r.hora + '] ' + r.tipo.toUpperCase() + ': ' + r.texto).join('\n');
+    try {
+      await navigator.clipboard.writeText(texto || '(sin registros)');
+      mostrarAviso('Registros copiados al portapapeles.');
+    } catch {
+      mostrarAviso('No se pudo copiar automáticamente.');
+    }
+  });
+});
+
 console.log('[archivo] script principal cargado, iniciando...');
 
 const PREFIJO = 'hechicero:';
@@ -3543,6 +3703,7 @@ function actualizarBotonContrasena() {
     botonContrasena.textContent = '🔒 NIVEL DE ACCESO: RESTRINGIDO';
     botonContrasena.classList.remove('desbloqueado');
   }
+  mostrarBotonConsolaAdmin(archivoDesbloqueado);
 }
 
 function abrirModalContrasena() {
