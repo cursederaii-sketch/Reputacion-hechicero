@@ -186,6 +186,35 @@
     margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--linea);
     font-size: 9.5px; letter-spacing: 0.03em; opacity: 0.75;
   }
+
+  /* ---------- CONTRASEÑA / ACCESO ---------- */
+  .boton-contrasena {
+    display: block; width: 100%; text-align: left; margin-top: 12px;
+    background: rgba(0,0,0,0.2); border: 1px solid var(--linea); color: var(--pergamino-tenue);
+    font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 0.05em;
+    padding: 8px 10px; border-radius: 4px; cursor: pointer; transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .boton-contrasena:hover { border-color: var(--brasa-viva); color: var(--pergamino); }
+  .boton-contrasena.desbloqueado { color: var(--verde-activo); border-color: var(--verde-activo); }
+
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(3px);
+    display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px;
+  }
+  .modal-contrasena {
+    background: linear-gradient(160deg, var(--negro-panel), #191920);
+    border: 1px solid var(--brasa-viva); border-radius: 10px;
+    padding: 26px; max-width: 360px; width: 100%;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  }
+  .modal-contrasena h3 { margin: 0 0 8px; }
+  .modal-contrasena p { color: var(--pergamino-tenue); font-size: 0.85rem; margin: 0 0 16px; }
+  .modal-contrasena input[type="password"] {
+    width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--linea); color: var(--pergamino);
+    padding: 11px 14px; border-radius: 4px; font-size: 1rem; letter-spacing: 0.15em;
+  }
+  .modal-contrasena input[type="password"]:focus { outline: none; border-color: var(--brasa-viva); }
+  .error-contrasena { color: var(--rojo-peligro); font-size: 0.82rem; margin-top: 8px; }
   @keyframes pulso { 0%,100%{opacity:1} 50%{opacity:0.35} }
 
   .principal {
@@ -481,12 +510,10 @@
 
   .maestro-detalle {
     display: grid;
-    grid-template-columns: 340px 1fr;
+    grid-template-columns: 1fr;
     gap: 24px;
     align-items: start;
   }
-  @media (min-width: 1300px) { .maestro-detalle { grid-template-columns: 380px 1fr; } }
-  @media (max-width: 900px) { .maestro-detalle { grid-template-columns: 1fr; } }
 
   .lista-expedientes {
     border: 1px solid var(--linea);
@@ -539,49 +566,128 @@
     height: 300px; color: var(--pergamino-tenue); font-size: 0.9rem;
     text-align: center; padding: 20px;
   }
-  .detalle-banner {
-    height: 150px; position: relative;
+
+  /* ---------- FICHA DE EXPEDIENTE (MODAL COMPLETO) ---------- */
+  .modal-expediente-overlay {
+    position: fixed; inset: 0; z-index: 300; display: none;
+    align-items: flex-start; justify-content: center;
+    background: rgba(5,5,8,0.78); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    padding: 40px 18px; overflow-y: auto;
+  }
+  .modal-expediente {
+    position: relative; width: 100%; max-width: 760px;
+    background:
+      radial-gradient(circle at 85% -10%, rgba(124,58,237,0.16), transparent 55%),
+      linear-gradient(165deg, var(--negro-panel), #16161c 55%, var(--purpura-maldito));
+    border: 1px solid rgba(167,139,250,0.35);
+    border-radius: 14px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.65), 0 0 0 1px rgba(0,0,0,0.4);
+    overflow: hidden;
+    animation: apareceFicha 0.2s ease;
+  }
+  @keyframes apareceFicha {
+    from { opacity: 0; transform: translateY(14px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .ficha-cerrar {
+    position: absolute; top: 14px; right: 14px; z-index: 6;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(0,0,0,0.45); border: 1px solid rgba(244,244,245,0.25); color: var(--pergamino);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; line-height: 1; cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .ficha-cerrar:hover { border-color: var(--brasa-viva); color: var(--brasa-viva); background: rgba(124,58,237,0.18); }
+
+  .ficha-sello-clasificado {
+    position: absolute; top: 26px; left: -38px; z-index: 5;
+    background: linear-gradient(90deg, #7a1616, var(--rojo-peligro));
+    color: #fff2f2; font-family: 'Courier New', monospace; font-size: 9.5px; letter-spacing: 0.14em;
+    padding: 4px 42px; transform: rotate(-42deg);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+    border-top: 1px dashed rgba(255,255,255,0.5); border-bottom: 1px dashed rgba(255,255,255,0.5);
+  }
+
+  .ficha-banner {
+    height: 190px; position: relative;
     background-color: var(--purpura-maldito);
     background-size: cover; background-position: center;
   }
-  .detalle-banner::after {
+  .ficha-banner::before {
     content: ""; position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(32,32,39,0.94));
+    background-image: radial-gradient(circle at 18% 15%, rgba(167,139,250,0.22), transparent 55%);
   }
-  .detalle-avatar {
-    width: 84px; height: 84px; border-radius: 50%;
+  .ficha-banner::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 32%, rgba(22,22,28,0.97));
+  }
+  .ficha-numero {
+    position: absolute; left: 28px; top: 20px; z-index: 3;
+    font-family: 'Courier New', monospace; font-size: 10.5px; letter-spacing: 0.08em;
+    color: rgba(244,244,245,0.7);
+  }
+  .ficha-insignia-poder { position: absolute; right: 26px; top: 20px; z-index: 3; display: flex; gap: 4px; }
+  .ficha-insignia-poder span { width: 8px; height: 18px; background: rgba(244,244,245,0.22); border-radius: 1px; }
+  .ficha-insignia-poder span.activa { background: var(--brasa-viva); box-shadow: 0 0 8px var(--brasa-viva); }
+  .ficha-avatar {
+    width: 112px; height: 112px; border-radius: 50%;
     background: var(--negro-vitela) center/cover no-repeat;
-    border: 3px solid var(--negro-panel);
-    box-shadow: 0 0 0 1px var(--pergamino-tenue);
-    position: absolute; left: 24px; bottom: -42px; z-index: 2;
+    border: 4px solid var(--negro-panel);
+    box-shadow: 0 0 0 2px var(--rango-color, var(--oro-viejo)), 0 0 26px -4px var(--rango-color, var(--oro-viejo));
+    position: absolute; left: 30px; bottom: -50px; z-index: 4;
+    display: flex; align-items: center; justify-content: center;
   }
-  .detalle-insignia-poder { position: absolute; right: 20px; top: 16px; z-index: 2; display: flex; gap: 3px; }
-  .detalle-insignia-poder span { width: 7px; height: 14px; background: rgba(244,244,245,0.25); border-radius: 1px; }
-  .detalle-insignia-poder span.activa { background: var(--brasa-viva); }
+  .ficha-avatar .inicial-avatar {
+    font-size: 2.4rem; font-family: Georgia, serif; color: var(--rango-color, var(--oro-viejo));
+  }
 
-  .detalle-cuerpo { padding: 54px 26px 26px; }
-  .detalle-cabecera { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-  .detalle-cuerpo h2 { margin: 0 0 6px; font-size: 1.4rem; }
-  .detalle-meta {
-    font-family: 'Courier New', monospace; font-size: 11.5px; color: var(--pergamino-tenue);
-    display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px;
+  .ficha-cuerpo { padding: 68px 34px 30px; position: relative; }
+  .ficha-cuerpo::before {
+    content: "⛧"; position: absolute; top: 10px; right: 22px;
+    font-size: 6rem; color: var(--pergamino); opacity: 0.035; pointer-events: none; z-index: 0;
+  }
+  .ficha-cuerpo > * { position: relative; z-index: 1; }
+  .ficha-cabecera { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+  .ficha-cuerpo h2 { margin: 0 0 8px; font-size: 1.65rem; }
+  .ficha-meta {
+    font-family: 'Courier New', monospace; font-size: 12px; color: var(--pergamino-tenue);
+    display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px;
+  }
+  .ficha-rango {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 0.05em;
+    padding: 5px 13px; border-radius: 3px; border: 1px solid currentColor;
+    background: rgba(255,255,255,0.03); margin-bottom: 18px;
+  }
+  .ficha-organizacion {
+    font-family: 'Courier New', monospace; font-size: 11.5px; color: var(--oro-viejo);
+    margin-bottom: 16px;
+  }
+  .ficha-seccion { border-top: 1px dashed var(--linea); margin-top: 20px; padding-top: 18px; }
+  .ficha-seccion h3 {
+    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--pergamino-tenue);
+    margin: 0 0 12px; border: none; display: flex; align-items: center; gap: 8px;
+  }
+  .ficha-seccion h3::before { content: "◆"; color: var(--brasa-viva); font-size: 9px; }
+  .ficha-tecnicas { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ficha-tecnica-tag {
+    font-size: 12px; background: rgba(167,139,250,0.12); color: var(--oro-viejo);
+    border: 1px solid rgba(167,139,250,0.4); padding: 5px 13px; border-radius: 14px;
+  }
+  .ficha-notas { font-size: 0.95rem; color: var(--pergamino-tenue); white-space: pre-wrap; line-height: 1.7; }
+  .ficha-acciones { display: flex; gap: 10px; margin-top: 26px; border-top: 1px solid var(--linea); padding-top: 22px; }
+
+  /* clases antiguas del panel de detalle en línea, conservadas por compatibilidad */
+  .detalle-tecnicas { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .tecnica-tag {
+    font-size: 11px; background: rgba(167,139,250,0.12); color: var(--oro-viejo);
+    border: 1px solid rgba(167,139,250,0.35); padding: 3px 9px; border-radius: 12px;
   }
   .etiqueta-rango {
     display: inline-block; font-family: 'Courier New', monospace; font-size: 10px;
     letter-spacing: 0.04em; padding: 3px 9px; border-radius: 2px; border: 1px solid currentColor;
     margin-bottom: 14px;
   }
-  .detalle-tecnicas { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-  .tecnica-tag {
-    font-size: 11px; background: rgba(167,139,250,0.12); color: var(--oro-viejo);
-    border: 1px solid rgba(167,139,250,0.35); padding: 3px 9px; border-radius: 12px;
-  }
-  .detalle-notas {
-    font-size: 0.92rem; color: var(--pergamino-tenue);
-    border-top: 1px dashed var(--linea); padding-top: 14px; margin-top: 6px;
-    white-space: pre-wrap;
-  }
-  .detalle-acciones { display: flex; gap: 10px; margin-top: 20px; }
 
   /* ---------- PERFIL ---------- */
   .tarjeta-perfil {
@@ -938,10 +1044,23 @@
     </div>
     <div class="sidebar-pie">
       <div class="estado-acceso" id="estadoAcceso"><span class="punto"></span> Archivo sincronizado</div>
-      NIVEL DE ACCESO: RESTRINGIDO
+      <button type="button" class="boton-contrasena" id="botonContrasena">🔒 NIVEL DE ACCESO: RESTRINGIDO</button>
       <div class="atajos-pie">/ buscar · N nuevo · G+letra vista · Esc cerrar</div>
     </div>
   </aside>
+
+  <div class="modal-overlay" id="overlayContrasena" style="display:none;">
+    <div class="modal-contrasena">
+      <h3>Acceso al archivo</h3>
+      <p>Introduce la contraseña del archivo para agregar, editar o eliminar registros.</p>
+      <input type="password" id="inputContrasenaModal" placeholder="●●●●●●●" autocomplete="off">
+      <div class="error-contrasena" id="errorContrasena" style="display:none;">Contraseña incorrecta.</div>
+      <div class="acciones-form" style="margin-top:16px;">
+        <button type="button" class="boton-invocar" id="botonConfirmarContrasena">Desbloquear</button>
+        <button type="button" class="boton-secundario" id="botonCancelarContrasena">Cancelar</button>
+      </div>
+    </div>
+  </div>
 
   <main class="principal">
    <div class="contenedor-ancho">
@@ -1150,12 +1269,16 @@
 
       <div class="maestro-detalle">
         <div class="lista-expedientes" id="listaExpedientes"></div>
-        <div class="panel-detalle" id="panelDetalle">
-          <div class="detalle-vacio">Selecciona un expediente de la lista para ver el dossier completo.</div>
-        </div>
       </div>
       <div id="vacio" class="vacio" style="display:none; margin-top:16px;">Aún no hay expedientes que coincidan. El archivo espera su primera entrada.</div>
     </section>
+
+    <div class="modal-expediente-overlay" id="overlayExpediente">
+      <div class="modal-expediente">
+        <div class="ficha-cerrar" id="botonCerrarFicha" title="Cerrar expediente">✕</div>
+        <div id="modalExpedienteContenido"></div>
+      </div>
+    </div>
 
     <!-- ---------- VISTA: PERFIL ---------- -->
     <section class="vista" id="vista-perfil">
@@ -2008,7 +2131,6 @@ document.getElementById('filtroOrganizacion').addEventListener('change', renderL
 /* ---------- RENDER ---------- */
 function renderTodo() {
   renderLista();
-  renderDetalle();
   renderResumen();
   renderBuscados();
 }
@@ -2064,76 +2186,102 @@ function renderLista() {
       </div>
       <span class="punto-estatus" style="background:${colorEstatus(exp.estatus)};" title="${escaparHTML(exp.estatus)}"></span>
     `;
-    fila.addEventListener('click', () => { seleccionId = exp.id; renderLista(); renderDetalle(); });
+    fila.addEventListener('click', () => { seleccionId = exp.id; renderLista(); abrirExpedienteModal(exp.id); });
     lista.appendChild(fila);
   });
 }
 
-function renderDetalle() {
-  const panel = document.getElementById('panelDetalle');
-  const exp = expedientes.find(x => x.id === seleccionId);
-  if (!exp) {
-    panel.innerHTML = '<div class="detalle-vacio">Selecciona un expediente de la lista para ver el dossier completo.</div>';
-    return;
-  }
+function abrirExpedienteModal(id) {
+  const exp = expedientes.find(x => x.id === id);
+  if (!exp) return;
+  seleccionId = id;
+  renderModalExpediente(exp);
+  const overlay = document.getElementById('overlayExpediente');
+  overlay.style.display = 'flex';
+  overlay.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarExpedienteModal() {
+  document.getElementById('overlayExpediente').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function renderModalExpediente(exp) {
+  const contenido = document.getElementById('modalExpedienteContenido');
   const rc = colorRango(exp.rango);
   const poder = Number(exp.poder) || 5;
   const barras = Array.from({length: 10}, (_, i) => `<span class="${i < poder ? 'activa' : ''}"></span>`).join('');
   const bannerEstilo = exp.banner ? `background-image:url('${exp.banner}');` : '';
   const avatarEstilo = exp.icono ? `background-image:url('${exp.icono}');` : '';
+  const numeroExpediente = String(exp.id).replace(/[^0-9a-zA-Z]/g, '').slice(-6).toUpperCase().padStart(6, '0');
 
-  panel.innerHTML = `
-    <div class="detalle-banner" style="${bannerEstilo}">
-      <div class="detalle-insignia-poder" title="Nivel de poder: ${poder}/10">${barras}</div>
-      <div class="detalle-avatar" style="${avatarEstilo}"></div>
+  contenido.innerHTML = `
+    <div class="ficha-banner" style="${bannerEstilo}">
+      <div class="ficha-sello-clasificado">CLASIFICADO</div>
+      <div class="ficha-numero">EXPEDIENTE Nº ${numeroExpediente}</div>
+      <div class="ficha-insignia-poder" title="Nivel de poder: ${poder}/10">${barras}</div>
+      <div class="ficha-avatar" style="${avatarEstilo}; --rango-color:${rc};">${exp.icono ? '' : `<span class="inicial-avatar">${escaparHTML((exp.nombre || '?')[0])}</span>`}</div>
     </div>
-    <div class="detalle-cuerpo">
-      <div class="detalle-cabecera">
+    <div class="ficha-cuerpo">
+      <div class="ficha-cabecera">
         <div>
           <h2>${exp.esJefeClan ? '<span class="marca-jefe" title="Jefe de clan">♛</span> ' : ''}${escaparHTML(exp.nombre)}</h2>
-          <div class="detalle-meta">
+          <div class="ficha-meta">
             <span>Edad: ${escaparHTML(String(exp.edad))}</span>
             <span>·</span>
-            <span style="color:${colorEstatus(exp.estatus)};">${escaparHTML(exp.estatus)}</span>
+            <span style="color:${colorEstatus(exp.estatus)};">● ${escaparHTML(exp.estatus)}</span>
           </div>
         </div>
       </div>
-      <span class="etiqueta-rango" style="color:${rc};">${escaparHTML(exp.rango)}</span>
-      ${exp.organizacion ? `<div style="font-family:'Courier New',monospace; font-size:11px; color:var(--oro-viejo); margin-bottom:14px;">ORGANIZACIÓN: ${escaparHTML(exp.organizacion)}</div>` : ''}
+      <span class="ficha-rango" style="color:${rc};">${escaparHTML(exp.rango)}</span>
+      ${exp.organizacion ? `<div class="ficha-organizacion">⌘ ORGANIZACIÓN: ${escaparHTML(exp.organizacion)}</div>` : ''}
       ${exp.buscado ? `<div class="aviso-buscado">◎ SE BUSCA — Recompensa: ${formatearRecompensa(exp.montoRecompensa)}${exp.motivoBusqueda ? '<br>Motivo: ' + escaparHTML(exp.motivoBusqueda) : ''}</div>` : ''}
       ${exp.estatus === 'Fallecido' ? `<div style="font-family:'Courier New',monospace; font-size:11px; color:${colorEstatus('Fallecido')}; margin-bottom:14px; border-left:2px solid ${colorEstatus('Fallecido')}; padding-left:8px;">✝ FALLECIDO${exp.fechaFallecimiento ? ' — ' + escaparHTML(exp.fechaFallecimiento) : ''}${exp.causaMuerte ? '<br>Causa: ' + escaparHTML(exp.causaMuerte) : ''}</div>` : ''}
-      <div class="detalle-tecnicas">
-        ${(exp.tecnicas || []).map(t => `<span class="tecnica-tag">${escaparHTML(t)}</span>`).join('')}
+      <div class="ficha-seccion">
+        <h3>Técnicas registradas</h3>
+        <div class="ficha-tecnicas">${(exp.tecnicas || []).map(t => `<span class="ficha-tecnica-tag">${escaparHTML(t)}</span>`).join('') || '<span style="color:var(--pergamino-tenue); font-size:0.85rem;">Sin técnicas registradas.</span>'}</div>
       </div>
-      ${exp.notas ? `<div class="detalle-notas">${escaparHTML(exp.notas)}</div>` : ''}
-      <div class="detalle-notas" style="border-top:1px dashed var(--linea); margin-top:14px; padding-top:14px;">
-        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--pergamino-tenue); margin:0 0 10px; border:none;">Historial de estatus</h3>
+      ${exp.notas ? `<div class="ficha-seccion"><h3>Notas del archivo</h3><div class="ficha-notas">${escaparHTML(exp.notas)}</div></div>` : ''}
+      <div class="ficha-seccion">
+        <h3>Historial de estatus</h3>
         ${renderHistorialEstatus(exp)}
       </div>
-      <div class="detalle-notas" style="border-top:1px dashed var(--linea); margin-top:14px; padding-top:14px;">
-        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--pergamino-tenue); margin:0 0 10px; border:none;">Vínculos registrados</h3>
+      <div class="ficha-seccion">
+        <h3>Vínculos registrados</h3>
         ${renderGrafoVinculos(exp)}
       </div>
-      <div class="detalle-acciones">
+      <div class="ficha-acciones">
         <button class="boton-secundario" id="botonEditarExp">Editar</button>
         <button class="boton-secundario" id="botonEliminarExp">Eliminar</button>
       </div>
     </div>
   `;
 
-  document.getElementById('botonEditarExp').addEventListener('click', () => prepararFormularioEdicion(exp));
+  document.getElementById('botonEditarExp').addEventListener('click', () => {
+    cerrarExpedienteModal();
+    prepararFormularioEdicion(exp);
+  });
   document.getElementById('botonEliminarExp').addEventListener('click', () => {
     if (confirm('¿Destruir este expediente del archivo? Esta acción no se puede deshacer.')) {
+      cerrarExpedienteModal();
       eliminarExpediente(exp.id);
     }
   });
-  panel.querySelectorAll('[data-ir-expediente]').forEach(b => b.addEventListener('click', () => {
-    seleccionId = b.dataset.irExpediente;
-    renderLista();
-    renderDetalle();
-    panel.scrollIntoView({behavior:'smooth', block:'start'});
+  contenido.querySelectorAll('[data-ir-expediente]').forEach(b => b.addEventListener('click', () => {
+    abrirExpedienteModal(b.dataset.irExpediente);
   }));
 }
+
+document.getElementById('botonCerrarFicha').addEventListener('click', cerrarExpedienteModal);
+document.getElementById('overlayExpediente').addEventListener('click', (ev) => {
+  if (ev.target.id === 'overlayExpediente') cerrarExpedienteModal();
+});
+document.addEventListener('keydown', (ev) => {
+  if (ev.key === 'Escape' && document.getElementById('overlayExpediente').style.display === 'flex') {
+    cerrarExpedienteModal();
+  }
+});
 
 function renderResumen() {
   const total = expedientes.length;
@@ -2228,10 +2376,9 @@ function renderBuscados() {
   }).join('');
 
   contenedor.querySelectorAll('[data-ver-buscado]').forEach(b => b.addEventListener('click', () => {
-    seleccionId = b.dataset.verBuscado;
     irAVista('registro');
     renderLista();
-    renderDetalle();
+    abrirExpedienteModal(b.dataset.verBuscado);
   }));
 }
 
@@ -3119,9 +3266,8 @@ buscadorGlobal.addEventListener('input', () => {
       const tipo = el.dataset.tipo, id = el.dataset.id;
       if (tipo === 'expediente') {
         irAVista('registro');
-        seleccionId = id;
         renderLista();
-        renderDetalle();
+        abrirExpedienteModal(id);
       } else if (tipo === 'mision') {
         irAVista('misiones');
       } else if (tipo === 'incidente') {
@@ -3309,6 +3455,90 @@ document.getElementById('inputImportarArchivo').addEventListener('change', async
   await iniciar();
   mostrarAviso('Respaldo importado y fusionado con el archivo.');
 });
+
+/* ---------- CONTRASEÑA DE ACCESO ---------- */
+const CONTRASENA_ARCHIVO = 'GnoSiS';
+let archivoDesbloqueado = false;
+let accionPendienteContrasena = null;
+
+const overlayContrasena = document.getElementById('overlayContrasena');
+const inputContrasenaModal = document.getElementById('inputContrasenaModal');
+const errorContrasena = document.getElementById('errorContrasena');
+const botonContrasena = document.getElementById('botonContrasena');
+
+function actualizarBotonContrasena() {
+  if (archivoDesbloqueado) {
+    botonContrasena.textContent = '🔓 NIVEL DE ACCESO: CONCEDIDO (clic para bloquear)';
+    botonContrasena.classList.add('desbloqueado');
+  } else {
+    botonContrasena.textContent = '🔒 NIVEL DE ACCESO: RESTRINGIDO';
+    botonContrasena.classList.remove('desbloqueado');
+  }
+}
+
+function abrirModalContrasena() {
+  errorContrasena.style.display = 'none';
+  inputContrasenaModal.value = '';
+  overlayContrasena.style.display = 'flex';
+  setTimeout(() => inputContrasenaModal.focus(), 30);
+}
+
+function cerrarModalContrasena() {
+  overlayContrasena.style.display = 'none';
+  accionPendienteContrasena = null;
+}
+
+function intentarDesbloquear() {
+  if (inputContrasenaModal.value === CONTRASENA_ARCHIVO) {
+    const pendiente = accionPendienteContrasena;
+    archivoDesbloqueado = true;
+    actualizarBotonContrasena();
+    cerrarModalContrasena();
+    mostrarAviso('Acceso concedido.');
+    if (pendiente && document.body.contains(pendiente)) {
+      pendiente.click();
+    }
+  } else {
+    errorContrasena.style.display = 'block';
+    inputContrasenaModal.value = '';
+    inputContrasenaModal.focus();
+  }
+}
+
+botonContrasena.addEventListener('click', () => {
+  if (archivoDesbloqueado) {
+    archivoDesbloqueado = false;
+    actualizarBotonContrasena();
+    mostrarAviso('Archivo bloqueado de nuevo.');
+  } else {
+    abrirModalContrasena();
+  }
+});
+
+document.getElementById('botonCancelarContrasena').addEventListener('click', cerrarModalContrasena);
+document.getElementById('botonConfirmarContrasena').addEventListener('click', intentarDesbloquear);
+overlayContrasena.addEventListener('click', (e) => { if (e.target === overlayContrasena) cerrarModalContrasena(); });
+inputContrasenaModal.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { e.preventDefault(); intentarDesbloquear(); }
+  if (e.key === 'Escape') { e.preventDefault(); cerrarModalContrasena(); }
+});
+
+const SELECTOR_ACCIONES_PROTEGIDAS = [
+  '#botonNuevo', '#botonEditarExp', '#botonEliminarExp',
+  '#botonNuevoEvento', '#botonNuevaMuerteCivil', '#botonNuevaZona', '#botonNuevaEntrada',
+  '#botonNuevaMision', '[data-editar-mision]', '[data-eliminar-mision]',
+  '#inputImportarArchivo', 'label[for="inputImportarArchivo"]'
+].join(', ');
+
+document.addEventListener('click', (e) => {
+  if (archivoDesbloqueado) return;
+  const objetivo = e.target.closest(SELECTOR_ACCIONES_PROTEGIDAS);
+  if (!objetivo) return;
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  accionPendienteContrasena = objetivo;
+  abrirModalContrasena();
+}, true);
 
 /* ---------- INICIO ---------- */
 async function iniciar() {
