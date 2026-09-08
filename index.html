@@ -1045,6 +1045,209 @@
   .cartel-motivo { font-size: 0.82rem; color: var(--pergamino-tenue); font-style: italic; }
   .cartel-buscado .acciones-entrada { justify-content: center; }
 
+  /* ---------- OBJETOS MALDITOS ---------- */
+  .rejilla-objetos {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 18px;
+  }
+  .tarjeta-objeto {
+    background: linear-gradient(160deg, var(--negro-panel), rgba(0,0,0,0.25));
+    border: 1px solid var(--linea); border-radius: 10px; overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .tarjeta-objeto:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(0,0,0,0.4); }
+  .imagen-objeto {
+    height: 130px; background-color: var(--purpura-maldito); background-size: cover; background-position: center;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--pergamino-tenue); font-size: 10.5px; position: relative;
+  }
+  .imagen-objeto::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(17,17,22,0.88));
+  }
+  .grado-objeto-tag {
+    position: absolute; top: 10px; left: 10px; z-index: 2;
+    font-family: 'Courier New', monospace; font-size: 9.5px; letter-spacing: 0.05em;
+    padding: 3px 9px; border-radius: 2px; border: 1px solid currentColor; background: rgba(0,0,0,0.45);
+  }
+  .estado-objeto-tag {
+    position: absolute; top: 10px; right: 10px; z-index: 2;
+    font-family: 'Courier New', monospace; font-size: 9.5px; letter-spacing: 0.05em;
+    padding: 3px 9px; border-radius: 2px; background: rgba(0,0,0,0.5); color: var(--pergamino-tenue);
+  }
+  .cuerpo-objeto { padding: 16px 18px; }
+  .cuerpo-objeto h4 { margin: 0 0 8px; font-size: 1rem; color: var(--pergamino); }
+  .efecto-objeto {
+    font-size: 0.86rem; color: var(--pergamino-tenue); margin-bottom: 10px;
+    border-left: 2px solid var(--brasa-viva); padding-left: 10px; white-space: pre-wrap;
+  }
+  .meta-objeto {
+    font-family: 'Courier New', monospace; font-size: 10px; color: var(--pergamino-tenue);
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;
+  }
+  .notas-objeto {
+    font-size: 0.82rem; color: var(--pergamino-tenue); font-style: italic;
+    border-top: 1px dashed var(--linea); padding-top: 8px; margin-top: 4px; white-space: pre-wrap;
+  }
+  .cuerpo-objeto .acciones-entrada { border-top: 1px dashed var(--linea); padding-top: 10px; margin-top: 10px; }
+
+  /* ---------- ACTIVIDAD MUNDIAL ---------- */
+  .rejilla-paises {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+  }
+  .tarjeta-pais {
+    background: linear-gradient(160deg, var(--negro-panel), rgba(0,0,0,0.25));
+    border: 1px solid var(--linea); border-radius: 10px; padding: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    position: relative; overflow: hidden;
+  }
+  .tarjeta-pais::before {
+    content: ""; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+    background: var(--nivel-color, var(--oro-viejo));
+  }
+  .cabecera-pais {
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;
+    padding-left: 6px; margin-bottom: 6px;
+  }
+  .cabecera-pais h4 { margin: 0; font-size: 1.05rem; color: var(--pergamino); }
+  .conteo-pais {
+    font-family: 'Courier New', monospace; font-size: 10.5px; color: var(--pergamino-tenue);
+    padding-left: 6px; margin-bottom: 12px; display: flex; gap: 10px; flex-wrap: wrap;
+  }
+  .conteo-pais .cifra-especial { color: var(--brasa-viva); }
+  .lista-actividad-pais { display: flex; flex-direction: column; gap: 10px; padding-left: 6px; }
+  .fila-actividad {
+    border: 1px solid var(--linea); border-radius: 6px; padding: 10px 12px;
+    background: rgba(0,0,0,0.18);
+  }
+  .cabecera-actividad {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;
+  }
+  .tipo-actividad-tag {
+    font-family: 'Courier New', monospace; font-size: 9.5px; letter-spacing: 0.04em;
+    padding: 2px 8px; border-radius: 2px; border: 1px solid currentColor;
+  }
+  .titulo-actividad { font-size: 0.9rem; color: var(--pergamino); }
+  .fecha-actividad-mini { margin-left: auto; font-family: 'Courier New', monospace; font-size: 10px; color: var(--pergamino-tenue); }
+  .desc-actividad { font-size: 0.84rem; color: var(--pergamino-tenue); white-space: pre-wrap; margin-top: 4px; }
+  .fila-actividad .acciones-entrada { margin-top: 6px; }
+  .callout-destacado {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  .callout-destacado .pais-nombre { font-size: 1.3rem; font-weight: 500; }
+  .callout-destacado .detalle-actividad { font-family: 'Courier New', monospace; font-size: 11px; }
+  .callout-destacado .detalle-callout { color: var(--pergamino-tenue); font-size: 0.88rem; flex-basis: 100%; }
+
+  /* ---------- TABLERO DE VIGILANCIA (globo + dossier + registro) ---------- */
+  .tablero-mundial {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr) 320px;
+    gap: 18px;
+    align-items: stretch;
+    margin-bottom: 30px;
+  }
+
+  .panel-vigilancia, .panel-registro-mundial {
+    background: linear-gradient(160deg, var(--negro-panel), rgba(0,0,0,0.25));
+    border: 1px solid var(--linea);
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .dossier-eyebrow {
+    font-family: 'Courier New', monospace; font-size: 9.5px; letter-spacing: 0.08em;
+    color: var(--pergamino-tenue); margin-bottom: 4px;
+  }
+  .dossier-nombre { font-size: 1.15rem; color: var(--pergamino); margin-bottom: 14px; line-height: 1.25; }
+  .dossier-nombre .sin-datos { color: var(--pergamino-tenue); font-size: 0.9rem; }
+  .dossier-campo {
+    display: flex; justify-content: space-between; gap: 10px;
+    font-size: 0.85rem; padding: 8px 0; border-top: 1px solid var(--linea);
+  }
+  .dossier-campo span:first-child { color: var(--pergamino-tenue); font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 0.04em; align-self: center; }
+  .dossier-campo span:last-child { text-align: right; font-weight: 500; }
+  .dossier-riesgo {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    margin: 14px 0; padding: 14px 0; border-top: 1px solid var(--linea); border-bottom: 1px solid var(--linea);
+  }
+  .dossier-riesgo div { text-align: center; }
+  .dossier-riesgo b { display: block; font-size: 1.3rem; color: var(--pergamino); font-weight: 500; }
+  .dossier-riesgo span { font-family: 'Courier New', monospace; font-size: 8.5px; color: var(--pergamino-tenue); letter-spacing: 0.04em; }
+  .dossier-nota { font-size: 0.82rem; color: var(--pergamino-tenue); margin-top: 12px; line-height: 1.5; }
+  .dossier-vacio { color: var(--pergamino-tenue); font-size: 0.88rem; margin: auto 0; text-align: center; }
+
+  .panel-globo {
+    background: radial-gradient(circle at 50% 40%, rgba(124,58,237,0.09), var(--negro-vitela) 70%);
+    border: 1px solid var(--linea);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+  }
+  .globo-cabecera {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 18px; position: relative; z-index: 2;
+  }
+  .globo-titulo { font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--pergamino-tenue); }
+  .globo-leyenda { display: flex; gap: 14px; font-family: 'Courier New', monospace; font-size: 9.5px; color: var(--pergamino-tenue); align-items: center; }
+  .punto-leyenda { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+  .contenedor-globo { flex: 1; min-height: 0; cursor: grab; }
+  .contenedor-globo:active { cursor: grabbing; }
+  .objetivos-flotantes {
+    position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  }
+  .objetivo-flotante {
+    position: absolute; max-width: 230px; pointer-events: none;
+    animation: aparecer 0.5s ease both;
+  }
+  .objetivo-flotante .objetivo-titulo {
+    font-size: 0.95rem; color: var(--oro-viejo); margin-bottom: 4px;
+    text-shadow: 0 0 12px rgba(0,0,0,0.8);
+  }
+  .objetivo-flotante .objetivo-detalle {
+    font-size: 0.78rem; color: var(--pergamino-tenue); line-height: 1.4;
+    text-shadow: 0 0 10px rgba(0,0,0,0.9);
+  }
+  .globo-vacio {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: var(--pergamino-tenue); font-size: 0.9rem; text-align: center; padding: 20px; z-index: 1;
+  }
+
+  .panel-registro-mundial .cabecera-lista { margin-bottom: 12px; }
+  .panel-registro-mundial .boton-invocar { width: 100%; margin-bottom: 14px; }
+  .lista-operaciones {
+    display: flex; flex-direction: column; gap: 10px;
+    overflow-y: auto; max-height: 560px; padding-right: 2px;
+  }
+  .tarjeta-operacion {
+    border: 1px solid var(--linea); border-radius: 6px; padding: 12px 14px;
+    background: rgba(0,0,0,0.18); position: relative; overflow: hidden;
+  }
+  .tarjeta-operacion::before {
+    content: ""; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+    background: var(--nivel-color, var(--oro-viejo));
+  }
+  .operacion-cabecera { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; padding-left: 6px; }
+  .operacion-pais { font-size: 0.95rem; color: var(--pergamino); }
+  .operacion-region { font-family: 'Courier New', monospace; font-size: 10px; color: var(--pergamino-tenue); }
+  .operacion-etiquetas { display: flex; gap: 6px; flex-wrap: wrap; padding-left: 6px; margin-bottom: 6px; }
+  .operacion-titulo { font-size: 0.86rem; color: var(--pergamino-tenue); padding-left: 6px; margin-bottom: 6px; }
+  .tarjeta-operacion .acciones-entrada { padding-left: 6px; }
+
+  @media (max-width: 1100px) {
+    .tablero-mundial { grid-template-columns: 1fr; }
+    .panel-globo { min-height: 340px; }
+    .lista-operaciones { max-height: none; }
+  }
+
   @media (max-width: 720px) {
     .app { flex-direction: column; }
     .sidebar { width: 100%; height: auto; position: relative; flex-direction: row; align-items: center; gap: 20px; padding: 16px; }
@@ -1084,11 +1287,13 @@
     <nav class="nav">
       <button class="activo" data-vista="resumen"><span class="icono-nav">◆</span> Resumen</button>
       <button data-vista="registro"><span class="icono-nav">▤</span> Registro de hechiceros</button>
+      <button data-vista="objetos"><span class="icono-nav">⛧</span> Objetos malditos</button>
       <button data-vista="buscados"><span class="icono-nav">◎</span> Buscados <span class="badge-activas" id="badgeBuscados"></span></button>
       <button data-vista="facciones"><span class="icono-nav">⚔</span> Facciones</button>
       <button data-vista="top"><span class="icono-nav">♛</span> Top global</button>
       <button data-vista="misiones"><span class="icono-nav">⚑</span> Misiones <span class="badge-activas" id="badgeMisionesActivas"></span></button>
       <button data-vista="guerra"><span class="icono-nav">☠</span> Guerra y bajas</button>
+      <button data-vista="mundial"><span class="icono-nav">⚠</span> Actividad mundial <span class="badge-activas" id="badgeMundial"></span></button>
       <button data-vista="bitacora"><span class="icono-nav">☰</span> Bitácora de incidentes</button>
       <button data-vista="perfil"><span class="icono-nav">☉</span> Perfil de usuario</button>
     </nav>
@@ -1381,6 +1586,128 @@
       </div>
     </div>
 
+    <!-- ---------- VISTA: OBJETOS MALDITOS ---------- -->
+    <section class="vista" id="vista-objetos">
+      <div class="cabecera-seccion">
+        <div class="subrayado"></div>
+        <h1>Objetos malditos</h1>
+        <p>Catálogo de herramientas, reliquias y artefactos imbuidos de energía maldita registrados por el archivo. Cada entrada documenta su efecto, grado y portador actual.</p>
+      </div>
+
+      <div class="acciones-form" style="margin-bottom:24px;">
+        <button class="boton-invocar" id="botonNuevoObjeto">+ Nuevo objeto</button>
+      </div>
+
+      <form class="panel-registro" id="formularioObjeto" style="display:none;">
+        <h3 id="tituloFormularioObjeto">Añadir objeto</h3>
+        <input type="hidden" id="idEdicionObjeto">
+
+        <div class="campo campo-imagen">
+          <div class="entradas">
+            <label for="imagenObjeto">Imagen de referencia</label>
+            <input id="imagenObjeto" type="file" accept="image/*">
+            <small>Se sube como archivo adjunto.</small>
+          </div>
+          <div class="previa-sello" id="previaImagenObjeto" style="border-radius:6px; width:64px; height:64px;">sin imagen</div>
+        </div>
+
+        <div class="fila-campos tres">
+          <div class="campo">
+            <label for="nombreObjeto">Nombre del objeto</label>
+            <input id="nombreObjeto" placeholder="Ej. Dedo del Rey de las Maldiciones" required>
+          </div>
+          <div class="campo">
+            <label for="gradoObjeto">Grado</label>
+            <select id="gradoObjeto">
+              <option>Grado 4</option>
+              <option>Grado 3</option>
+              <option>Grado S-2</option>
+              <option>Grado 2</option>
+              <option>Grado S-1</option>
+              <option>Grado 1</option>
+              <option>Grado especial</option>
+              <option>Grado especial+</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="estadoObjeto">Estado actual</label>
+            <select id="estadoObjeto">
+              <option>Sellado</option>
+              <option>Activo / en uso</option>
+              <option>Bajo estudio</option>
+              <option>Perdido</option>
+              <option>Destruido</option>
+              <option>Confiscado</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="funcionObjeto">Qué hace / efecto</label>
+          <textarea id="funcionObjeto" placeholder="Describe el efecto, activación y condiciones de uso..." required></textarea>
+        </div>
+
+        <div class="fila-campos">
+          <div class="campo">
+            <label for="origenObjeto">Origen / historia</label>
+            <input id="origenObjeto" placeholder="Ej. Recuperado de las ruinas del templo hundido">
+          </div>
+          <div class="campo">
+            <label for="poseedorObjeto">Poseedor / custodio actual</label>
+            <select id="poseedorObjeto"><option value="">— Sin asignar —</option></select>
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="poderObjeto">Nivel de peligrosidad</label>
+          <div class="poder-fila">
+            <input type="range" id="poderObjeto" min="1" max="10" value="5">
+            <span class="poder-valor" id="poderObjetoValor">5 / 10</span>
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="notasObjeto">Notas adicionales</label>
+          <textarea id="notasObjeto" placeholder="Restricciones, incidentes relacionados..."></textarea>
+        </div>
+
+        <div class="acciones-form">
+          <button type="submit" class="boton-invocar" id="botonGuardarObjeto">Registrar objeto</button>
+          <button type="button" class="boton-secundario" id="botonCancelarObjeto">Cancelar</button>
+        </div>
+      </form>
+
+      <div class="cabecera-lista">
+        <h2>Catálogo</h2>
+        <span class="contador" id="contadorObjetos">0 objetos</span>
+      </div>
+      <div class="barra-filtro">
+        <input id="buscarObjeto" placeholder="Buscar por nombre o efecto...">
+        <select id="filtroGradoObjeto">
+          <option value="">Todos los grados</option>
+          <option>Grado 4</option>
+          <option>Grado 3</option>
+          <option>Grado S-2</option>
+          <option>Grado 2</option>
+          <option>Grado S-1</option>
+          <option>Grado 1</option>
+          <option>Grado especial</option>
+          <option>Grado especial+</option>
+        </select>
+        <select id="filtroEstadoObjeto">
+          <option value="">Todos los estados</option>
+          <option>Sellado</option>
+          <option>Activo / en uso</option>
+          <option>Bajo estudio</option>
+          <option>Perdido</option>
+          <option>Destruido</option>
+          <option>Confiscado</option>
+        </select>
+      </div>
+      <div class="rejilla-objetos" id="rejillaObjetos"></div>
+      <div id="vacioObjetos" class="vacio" style="display:none;">Aún no hay objetos malditos registrados.</div>
+    </section>
+
     <!-- ---------- VISTA: PERFIL ---------- -->
     <section class="vista" id="vista-perfil">
       <div class="cabecera-seccion">
@@ -1629,6 +1956,109 @@
       </div>
     </section>
 
+    <!-- ---------- VISTA: ACTIVIDAD MUNDIAL ---------- -->
+    <section class="vista" id="vista-mundial">
+      <div class="cabecera-seccion">
+        <div class="subrayado"></div>
+        <h1>Actividad mundial</h1>
+        <p>Vigilancia de hechicería ilegal y de maldiciones de grado especial o superior fuera del alcance directo del archivo. Cada país agrupa los incidentes conocidos en su territorio.</p>
+      </div>
+
+      <div class="tarjetas-stat" id="tarjetasStatMundial"></div>
+
+      <div class="tablero-mundial">
+        <aside class="panel-vigilancia" id="panelVigilanciaMundial"></aside>
+
+        <div class="panel-globo">
+          <div class="globo-cabecera">
+            <span class="globo-titulo">VIGILANCIA GLOBAL // TIEMPO REAL</span>
+            <span class="globo-leyenda">
+              <span><span class="punto-leyenda" style="background:var(--brasa-viva);"></span>especial</span>
+              <span><span class="punto-leyenda" style="background:var(--rojo-peligro);"></span>especial+</span>
+            </span>
+          </div>
+          <div class="contenedor-globo" id="contenedorGlobo"></div>
+          <div class="objetivos-flotantes" id="objetivosFlotantes"></div>
+        </div>
+
+        <div class="panel-registro-mundial">
+          <div class="cabecera-lista">
+            <h2>Registro de actividad</h2>
+            <span class="contador" id="contadorPaises">0 países</span>
+          </div>
+          <button class="boton-invocar" id="botonNuevaActividad">+ Nuevo registro</button>
+          <div class="lista-operaciones" id="rejillaPaises"></div>
+          <div id="vacioMundial" class="vacio" style="display:none;">Aún no hay actividad registrada fuera del archivo.</div>
+        </div>
+      </div>
+
+      <form class="panel-registro" id="formularioActividad" style="display:none;">
+        <h3 id="tituloFormularioActividad">Nuevo registro</h3>
+        <input type="hidden" id="idEdicionActividad">
+        <div class="fila-campos tres">
+          <div class="campo">
+            <label for="paisActividad">País</label>
+            <input id="paisActividad" placeholder="Ej. Japón" required>
+          </div>
+          <div class="campo">
+            <label for="regionActividad">Región / ciudad (opcional)</label>
+            <input id="regionActividad" placeholder="Ej. Tokio">
+          </div>
+          <div class="campo">
+            <label for="fechaActividad">Fecha</label>
+            <input id="fechaActividad" type="date">
+          </div>
+        </div>
+        <div class="fila-campos tres">
+          <div class="campo">
+            <label for="tipoActividad">Tipo</label>
+            <select id="tipoActividad">
+              <option>Hechicería ilegal</option>
+              <option>Maldición de grado especial</option>
+              <option>Maldición de grado especial+</option>
+              <option>Tráfico de objetos malditos</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="gradoActividad">Grado asociado</label>
+            <select id="gradoActividad">
+              <option>Grado 4</option>
+              <option>Grado 3</option>
+              <option>Grado S-2</option>
+              <option>Grado 2</option>
+              <option>Grado S-1</option>
+              <option>Grado 1</option>
+              <option selected>Grado especial</option>
+              <option>Grado especial+</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="estadoActividad">Estado</label>
+            <select id="estadoActividad">
+              <option>Activa</option>
+              <option>Bajo investigación</option>
+              <option>Contenida</option>
+              <option>Neutralizada</option>
+            </select>
+          </div>
+        </div>
+        <div class="campo">
+          <label for="nombreEntidadActividad">Nombre de la entidad / caso (opcional)</label>
+          <input id="nombreEntidadActividad" placeholder="Ej. El Devorador Sin Rostro">
+        </div>
+        <div class="campo">
+          <label for="descripcionActividad">Descripción</label>
+          <textarea id="descripcionActividad" placeholder="Detalles del caso, hechiceros involucrados, riesgo estimado..."></textarea>
+        </div>
+        <div class="acciones-form">
+          <button type="submit" class="boton-invocar" id="botonGuardarActividad">Registrar</button>
+          <button type="button" class="boton-secundario" id="botonCancelarActividad">Cancelar</button>
+        </div>
+      </form>
+
+    </section>
+
     <!-- ---------- VISTA: MISIONES ---------- -->
     <section class="vista" id="vista-misiones">
       <div class="cabecera-seccion">
@@ -1794,6 +2224,9 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="firebase-config.js"></script>
+
+<!-- Globe.gl — globo 3D de vigilancia en "Actividad mundial" -->
+<script src="https://unpkg.com/globe.gl"></script>
 
 <script>
 /* ---------- LOG GLOBAL DE ERRORES (para depurar) ---------- */
@@ -2098,11 +2531,13 @@ function leerImagenComoBase64(archivo, maxAncho, maxAlto, calidad) {
 const NOMBRES_VISTA = {
   resumen: 'Resumen',
   registro: 'Registro de hechiceros',
+  objetos: 'Objetos malditos',
   buscados: 'Buscados',
   facciones: 'Facciones',
   top: 'Top global',
   misiones: 'Misiones',
   guerra: 'Guerra y bajas',
+  mundial: 'Actividad mundial',
   bitacora: 'Bitácora de incidentes',
   perfil: 'Perfil de usuario'
 };
@@ -2112,11 +2547,13 @@ function irAVista(idVista) {
   document.getElementById('vista-' + idVista).classList.add('activa');
   document.getElementById('rutaActual').innerHTML =
     `<span>ARCHIVO</span><span class="separador">/</span><span class="actual">${NOMBRES_VISTA[idVista] || idVista}</span>`;
+  if (idVista === 'objetos') renderObjetos();
   if (idVista === 'buscados') renderBuscados();
   if (idVista === 'facciones') renderFacciones();
   if (idVista === 'top') renderTopGlobal();
   if (idVista === 'misiones') renderMisiones();
   if (idVista === 'guerra') renderVistaGuerraActiva();
+  if (idVista === 'mundial') renderMundial();
   if (idVista === 'bitacora') { poblarSelectorRelacionado(); renderBitacora(); }
 }
 document.querySelectorAll('.nav button').forEach(btn => {
@@ -3287,6 +3724,576 @@ function renderZonas() {
   }));
 }
 
+/* ---------- OBJETOS MALDITOS ---------- */
+const PREFIJO_OBJETOS = 'objetoMaldito:';
+let objetosMalditos = [];
+let editandoIdObjeto = null;
+let imagenObjetoTemp = '';
+
+const formularioObjeto = document.getElementById('formularioObjeto');
+document.getElementById('botonNuevoObjeto').addEventListener('click', () => {
+  prepararObjetoNuevo();
+  formularioObjeto.style.display = 'block';
+  formularioObjeto.scrollIntoView({behavior:'smooth', block:'start'});
+});
+document.getElementById('botonCancelarObjeto').addEventListener('click', () => {
+  formularioObjeto.style.display = 'none';
+  formularioObjeto.reset();
+});
+document.getElementById('poderObjeto').addEventListener('input', (e) => {
+  document.getElementById('poderObjetoValor').textContent = e.target.value + ' / 10';
+});
+document.getElementById('imagenObjeto').addEventListener('change', async (e) => {
+  const archivo = e.target.files[0];
+  if (!archivo) return;
+  try {
+    imagenObjetoTemp = await leerImagenComoBase64(archivo, 480, 320, 0.75);
+    actualizarPreviaImagenObjeto();
+  } catch { mostrarAviso('No se pudo leer la imagen del objeto.'); }
+});
+
+function actualizarPreviaImagenObjeto() {
+  const previa = document.getElementById('previaImagenObjeto');
+  previa.innerHTML = imagenObjetoTemp ? `<img src="${imagenObjetoTemp}">` : 'sin imagen';
+}
+
+function poblarSelectorPoseedor() {
+  const select = document.getElementById('poseedorObjeto');
+  const valorActual = select.value;
+  select.innerHTML = '<option value="">— Sin asignar —</option>' +
+    expedientes.map(exp => `<option value="${exp.id}">${escaparHTML(exp.nombre)}</option>`).join('');
+  if (Array.from(select.options).some(o => o.value === valorActual)) select.value = valorActual;
+}
+
+function prepararObjetoNuevo() {
+  editandoIdObjeto = null;
+  imagenObjetoTemp = '';
+  document.getElementById('tituloFormularioObjeto').textContent = 'Añadir objeto';
+  document.getElementById('botonGuardarObjeto').textContent = 'Registrar objeto';
+  document.getElementById('idEdicionObjeto').value = '';
+  formularioObjeto.reset();
+  document.getElementById('poderObjetoValor').textContent = '5 / 10';
+  actualizarPreviaImagenObjeto();
+  poblarSelectorPoseedor();
+}
+
+function prepararObjetoEdicion(obj) {
+  editandoIdObjeto = obj.id;
+  imagenObjetoTemp = obj.imagen || '';
+  document.getElementById('tituloFormularioObjeto').textContent = 'Editar objeto';
+  document.getElementById('botonGuardarObjeto').textContent = 'Guardar cambios';
+  document.getElementById('idEdicionObjeto').value = obj.id;
+  document.getElementById('nombreObjeto').value = obj.nombre || '';
+  document.getElementById('gradoObjeto').value = obj.grado || 'Grado 4';
+  document.getElementById('estadoObjeto').value = obj.estado || 'Sellado';
+  document.getElementById('funcionObjeto').value = obj.funcion || '';
+  document.getElementById('origenObjeto').value = obj.origen || '';
+  document.getElementById('poderObjeto').value = obj.poder || 5;
+  document.getElementById('poderObjetoValor').textContent = (obj.poder || 5) + ' / 10';
+  document.getElementById('notasObjeto').value = obj.notas || '';
+  actualizarPreviaImagenObjeto();
+  poblarSelectorPoseedor();
+  document.getElementById('poseedorObjeto').value = obj.poseedorId || '';
+  formularioObjeto.style.display = 'block';
+  formularioObjeto.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+formularioObjeto.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const nombre = document.getElementById('nombreObjeto').value.trim();
+  const funcion = document.getElementById('funcionObjeto').value.trim();
+  if (!nombre || !funcion) return;
+  const datos = {
+    nombre,
+    grado: document.getElementById('gradoObjeto').value,
+    estado: document.getElementById('estadoObjeto').value,
+    funcion,
+    origen: document.getElementById('origenObjeto').value.trim(),
+    poseedorId: document.getElementById('poseedorObjeto').value,
+    poder: document.getElementById('poderObjeto').value,
+    notas: document.getElementById('notasObjeto').value.trim(),
+    imagen: imagenObjetoTemp
+  };
+  if (editandoIdObjeto) {
+    const obj = objetosMalditos.find(x => x.id === editandoIdObjeto);
+    Object.assign(obj, datos);
+    mostrarAviso('Objeto actualizado.');
+    await almacenGuardar(PREFIJO_OBJETOS + obj.id, JSON.stringify(obj), true);
+  } else {
+    const obj = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7), ...datos, creado: Date.now() };
+    objetosMalditos.unshift(obj);
+    mostrarAviso('Objeto sellado en el catálogo.');
+    await almacenGuardar(PREFIJO_OBJETOS + obj.id, JSON.stringify(obj), true);
+  }
+  formularioObjeto.style.display = 'none';
+  renderObjetos();
+});
+
+document.getElementById('buscarObjeto').addEventListener('input', renderObjetos);
+document.getElementById('filtroGradoObjeto').addEventListener('change', renderObjetos);
+document.getElementById('filtroEstadoObjeto').addEventListener('change', renderObjetos);
+
+async function cargarObjetos() {
+  const claves = await almacenListar(PREFIJO_OBJETOS);
+  if (claves.length === 0) { objetosMalditos = []; return; }
+  const valores = await Promise.all(claves.map(k => almacenObtener(k, true)));
+  objetosMalditos = valores.filter(Boolean).map(v => { try { return JSON.parse(v); } catch { return null; } })
+    .filter(Boolean).sort((a, b) => (b.creado || 0) - (a.creado || 0));
+}
+
+async function eliminarObjeto(id) {
+  await almacenEliminar(PREFIJO_OBJETOS + id, true);
+  objetosMalditos = objetosMalditos.filter(x => x.id !== id);
+  renderObjetos();
+}
+
+function objetosFiltrados() {
+  const busqueda = document.getElementById('buscarObjeto').value.trim().toLowerCase();
+  const filtroGrado = document.getElementById('filtroGradoObjeto').value;
+  const filtroEstado = document.getElementById('filtroEstadoObjeto').value;
+  return objetosMalditos.filter(o => {
+    const coincideTexto = !busqueda || o.nombre.toLowerCase().includes(busqueda) || (o.funcion || '').toLowerCase().includes(busqueda);
+    const coincideGrado = !filtroGrado || o.grado === filtroGrado;
+    const coincideEstado = !filtroEstado || o.estado === filtroEstado;
+    return coincideTexto && coincideGrado && coincideEstado;
+  });
+}
+
+function tarjetaObjetoHTML(obj) {
+  const rc = colorRango(obj.grado);
+  const poseedor = obj.poseedorId ? expedientes.find(e => e.id === obj.poseedorId) : null;
+  const imgEstilo = obj.imagen ? `background-image:url('${obj.imagen}');` : '';
+  return `
+    <div class="tarjeta-objeto">
+      <div class="imagen-objeto" style="${imgEstilo}">
+        <span class="grado-objeto-tag" style="color:${rc};">${escaparHTML(obj.grado)}</span>
+        <span class="estado-objeto-tag">${escaparHTML(obj.estado)}</span>
+        ${obj.imagen ? '' : 'sin imagen de referencia'}
+      </div>
+      <div class="cuerpo-objeto">
+        <h4>${escaparHTML(obj.nombre)}</h4>
+        <div class="efecto-objeto">${escaparHTML(obj.funcion)}</div>
+        <div class="meta-objeto">
+          <span>PELIGROSIDAD: ${obj.poder || 5}/10</span>
+          ${poseedor ? `<span>· PORTADOR: ${escaparHTML(poseedor.nombre)}</span>` : '<span>· SIN PORTADOR ASIGNADO</span>'}
+          ${obj.origen ? `<span>· ORIGEN: ${escaparHTML(obj.origen)}</span>` : ''}
+        </div>
+        ${obj.notas ? `<div class="notas-objeto">${escaparHTML(obj.notas)}</div>` : ''}
+        <div class="acciones-entrada">
+          <button data-editar-objeto="${obj.id}">editar</button>
+          <button data-eliminar-objeto="${obj.id}">eliminar</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderObjetos() {
+  const contenedor = document.getElementById('rejillaObjetos');
+  const vacio = document.getElementById('vacioObjetos');
+  const contador = document.getElementById('contadorObjetos');
+  if (!contenedor) return;
+  const filtrados = objetosFiltrados();
+  contador.textContent = objetosMalditos.length + (objetosMalditos.length === 1 ? ' objeto' : ' objetos');
+  if (filtrados.length === 0) {
+    contenedor.innerHTML = '';
+    vacio.style.display = 'block';
+    return;
+  }
+  vacio.style.display = 'none';
+  contenedor.innerHTML = filtrados.map(tarjetaObjetoHTML).join('');
+  contenedor.querySelectorAll('[data-editar-objeto]').forEach(b => b.addEventListener('click', () => {
+    prepararObjetoEdicion(objetosMalditos.find(x => x.id === b.dataset.editarObjeto));
+  }));
+  contenedor.querySelectorAll('[data-eliminar-objeto]').forEach(b => b.addEventListener('click', () => {
+    if (confirm('¿Eliminar este objeto del catálogo?')) eliminarObjeto(b.dataset.eliminarObjeto);
+  }));
+}
+
+/* ---------- ACTIVIDAD MUNDIAL (hechicería ilegal y grados especiales por el mundo) ---------- */
+const PREFIJO_MUNDIAL = 'actividadMundial:';
+let actividadMundial = [];
+let editandoIdActividad = null;
+const COLOR_TIPO_ACTIVIDAD = {
+  'Hechicería ilegal': '#EAB308',
+  'Maldición de grado especial': '#7C3AED',
+  'Maldición de grado especial+': '#EF4444',
+  'Tráfico de objetos malditos': '#6f9ac9',
+  'Otro': '#A1A1AA'
+};
+const COLOR_ESTADO_ACTIVIDAD = {
+  'Activa': '#EF4444', 'Bajo investigación': '#EAB308', 'Contenida': '#7C3AED', 'Neutralizada': '#22C55E'
+};
+
+const formularioActividad = document.getElementById('formularioActividad');
+document.getElementById('botonNuevaActividad').addEventListener('click', () => {
+  prepararActividadNueva();
+  formularioActividad.style.display = 'block';
+  formularioActividad.scrollIntoView({behavior:'smooth', block:'start'});
+});
+document.getElementById('botonCancelarActividad').addEventListener('click', () => {
+  formularioActividad.style.display = 'none';
+  formularioActividad.reset();
+});
+
+function prepararActividadNueva() {
+  editandoIdActividad = null;
+  document.getElementById('tituloFormularioActividad').textContent = 'Nuevo registro';
+  document.getElementById('botonGuardarActividad').textContent = 'Registrar';
+  document.getElementById('idEdicionActividad').value = '';
+  formularioActividad.reset();
+  document.getElementById('fechaActividad').valueAsDate = new Date();
+}
+
+function prepararActividadEdicion(a) {
+  editandoIdActividad = a.id;
+  document.getElementById('tituloFormularioActividad').textContent = 'Editar registro';
+  document.getElementById('botonGuardarActividad').textContent = 'Guardar cambios';
+  document.getElementById('idEdicionActividad').value = a.id;
+  document.getElementById('paisActividad').value = a.pais || '';
+  document.getElementById('regionActividad').value = a.region || '';
+  document.getElementById('fechaActividad').value = a.fecha || '';
+  document.getElementById('tipoActividad').value = a.tipo || 'Hechicería ilegal';
+  document.getElementById('gradoActividad').value = a.grado || 'Grado especial';
+  document.getElementById('estadoActividad').value = a.estado || 'Activa';
+  document.getElementById('nombreEntidadActividad').value = a.nombreEntidad || '';
+  document.getElementById('descripcionActividad').value = a.descripcion || '';
+  formularioActividad.style.display = 'block';
+  formularioActividad.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+formularioActividad.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const pais = document.getElementById('paisActividad').value.trim();
+  if (!pais) return;
+  const datos = {
+    pais,
+    region: document.getElementById('regionActividad').value.trim(),
+    fecha: document.getElementById('fechaActividad').value,
+    tipo: document.getElementById('tipoActividad').value,
+    grado: document.getElementById('gradoActividad').value,
+    estado: document.getElementById('estadoActividad').value,
+    nombreEntidad: document.getElementById('nombreEntidadActividad').value.trim(),
+    descripcion: document.getElementById('descripcionActividad').value.trim()
+  };
+  if (editandoIdActividad) {
+    const a = actividadMundial.find(x => x.id === editandoIdActividad);
+    Object.assign(a, datos);
+    mostrarAviso('Registro actualizado.');
+    await almacenGuardar(PREFIJO_MUNDIAL + a.id, JSON.stringify(a), true);
+  } else {
+    const a = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7), ...datos, creado: Date.now() };
+    actividadMundial.unshift(a);
+    mostrarAviso('Registrado en actividad mundial.');
+    await almacenGuardar(PREFIJO_MUNDIAL + a.id, JSON.stringify(a), true);
+  }
+  formularioActividad.style.display = 'none';
+  renderMundial();
+});
+
+async function cargarActividadMundial() {
+  const claves = await almacenListar(PREFIJO_MUNDIAL);
+  if (claves.length === 0) { actividadMundial = []; return; }
+  const valores = await Promise.all(claves.map(k => almacenObtener(k, true)));
+  actividadMundial = valores.filter(Boolean).map(v => { try { return JSON.parse(v); } catch { return null; } })
+    .filter(Boolean).sort((a, b) => (b.creado || 0) - (a.creado || 0));
+}
+
+async function eliminarActividad(id) {
+  await almacenEliminar(PREFIJO_MUNDIAL + id, true);
+  actividadMundial = actividadMundial.filter(x => x.id !== id);
+  renderMundial();
+}
+
+/* Datos base conocidos: 3 grados especiales confirmados en Japón y 1 grado especial+ en Alemania.
+   Se siembran una sola vez (con IDs fijos) si el registro global aún está vacío. */
+async function sembrarActividadMundial() {
+  if (actividadMundial.length > 0) return;
+  const semillas = [
+    { id: 'semilla-japon-1', pais: 'Japón', region: '', tipo: 'Maldición de grado especial', grado: 'Grado especial', estado: 'Activa', nombreEntidad: 'Maldición de grado especial nº1 (Japón)', descripcion: 'Una de las tres entidades de grado especial confirmadas actualmente en territorio japonés.', fecha: '' },
+    { id: 'semilla-japon-2', pais: 'Japón', region: '', tipo: 'Maldición de grado especial', grado: 'Grado especial', estado: 'Activa', nombreEntidad: 'Maldición de grado especial nº2 (Japón)', descripcion: 'Segunda entidad de grado especial catalogada en territorio japonés.', fecha: '' },
+    { id: 'semilla-japon-3', pais: 'Japón', region: '', tipo: 'Maldición de grado especial', grado: 'Grado especial', estado: 'Activa', nombreEntidad: 'Maldición de grado especial nº3 (Japón)', descripcion: 'Tercera entidad de grado especial catalogada en territorio japonés.', fecha: '' },
+    { id: 'semilla-alemania-1', pais: 'Alemania', region: '', tipo: 'Maldición de grado especial+', grado: 'Grado especial+', estado: 'Activa', nombreEntidad: 'Maldición de grado especial+ (Alemania)', descripcion: 'Única entidad de grado especial+ confirmada en territorio alemán.', fecha: '' }
+  ];
+  for (const s of semillas) {
+    const registro = { ...s, creado: Date.now() };
+    actividadMundial.push(registro);
+    await almacenGuardar(PREFIJO_MUNDIAL + registro.id, JSON.stringify(registro), true);
+  }
+}
+
+/* Coordenadas aproximadas (capital o centro) para ubicar países en el globo.
+   Claves normalizadas: minúsculas y sin tildes. */
+const COORDENADAS_PAIS = {
+  'japon': [35.68, 139.69], 'alemania': [52.52, 13.40], 'estados unidos': [38.9, -77.0],
+  'eeuu': [38.9, -77.0], 'usa': [38.9, -77.0], 'mexico': [19.43, -99.13], 'espana': [40.42, -3.70],
+  'francia': [48.86, 2.35], 'reino unido': [51.51, -0.13], 'inglaterra': [51.51, -0.13],
+  'italia': [41.90, 12.50], 'rusia': [55.75, 37.62], 'china': [39.90, 116.40],
+  'corea del sur': [37.57, 126.98], 'corea del norte': [39.03, 125.75], 'corea': [37.57, 126.98],
+  'brasil': [-15.79, -47.88], 'argentina': [-34.60, -58.38], 'canada': [45.42, -75.70],
+  'australia': [-35.28, 149.13], 'india': [28.61, 77.21], 'egipto': [30.04, 31.24],
+  'sudafrica': [-25.75, 28.19], 'nigeria': [9.08, 7.40], 'kenia': [-1.29, 36.82],
+  'marruecos': [34.02, -6.84], 'argelia': [36.75, 3.06], 'libia': [32.89, 13.19],
+  'turquia': [39.93, 32.86], 'grecia': [37.98, 23.73], 'portugal': [38.72, -9.14],
+  'paises bajos': [52.37, 4.90], 'holanda': [52.37, 4.90], 'belgica': [50.85, 4.35],
+  'suiza': [46.95, 7.45], 'austria': [48.21, 16.37], 'suecia': [59.33, 18.06],
+  'noruega': [59.91, 10.75], 'finlandia': [60.17, 24.94], 'dinamarca': [55.68, 12.57],
+  'polonia': [52.23, 21.01], 'ucrania': [50.45, 30.52], 'rumania': [44.43, 26.10],
+  'hungria': [47.50, 19.04], 'republica checa': [50.08, 14.44], 'irlanda': [53.35, -6.26],
+  'islandia': [64.15, -21.94], 'colombia': [4.71, -74.07], 'peru': [-12.05, -77.04],
+  'chile': [-33.45, -70.67], 'venezuela': [10.48, -66.90], 'ecuador': [-0.19, -78.47],
+  'bolivia': [-16.50, -68.15], 'paraguay': [-25.28, -57.63], 'uruguay': [-34.90, -56.16],
+  'cuba': [23.11, -82.37], 'republica dominicana': [18.49, -69.93], 'panama': [8.98, -79.52],
+  'costa rica': [9.93, -84.08], 'guatemala': [14.63, -90.51], 'honduras': [14.09, -87.20],
+  'el salvador': [13.69, -89.19], 'nicaragua': [12.11, -86.24], 'filipinas': [14.60, 120.98],
+  'indonesia': [-6.21, 106.85], 'tailandia': [13.75, 100.50], 'vietnam': [21.03, 105.85],
+  'malasia': [3.14, 101.69], 'singapur': [1.35, 103.82], 'taiwan': [25.03, 121.57],
+  'mongolia': [47.92, 106.92], 'kazajistan': [51.17, 71.45], 'arabia saudita': [24.71, 46.68],
+  'emiratos arabes unidos': [24.45, 54.38], 'iran': [35.70, 51.42], 'irak': [33.31, 44.36],
+  'israel': [31.77, 35.21], 'pakistan': [33.68, 73.05], 'afganistan': [34.53, 69.17],
+  'nueva zelanda': [-41.29, 174.78], 'groenlandia': [64.18, -51.72], 'peru.': [-12.05, -77.04]
+};
+function normalizarClavePais(texto) {
+  return (texto || '').toLowerCase().trim()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+function coordenadasDePais(pais) {
+  return COORDENADAS_PAIS[normalizarClavePais(pais)] || null;
+}
+
+/* ---------- GLOBO 3D DE VIGILANCIA (Globe.gl) ---------- */
+const SEDE_VIGILANCIA = { nombre: 'Sede central (Tokio)', lat: 35.68, lng: 139.69 };
+let instanciaGlobo = null;
+let globoListo = false;
+
+function redimensionarGlobo() {
+  const contenedor = document.getElementById('contenedorGlobo');
+  if (!instanciaGlobo || !contenedor) return;
+  instanciaGlobo.width(contenedor.clientWidth);
+  instanciaGlobo.height(contenedor.clientHeight);
+}
+
+function asegurarGlobo() {
+  if (instanciaGlobo) { redimensionarGlobo(); return instanciaGlobo; }
+  if (typeof Globe === 'undefined') return null;
+  const contenedor = document.getElementById('contenedorGlobo');
+  if (!contenedor) return null;
+  instanciaGlobo = Globe()(contenedor)
+    .backgroundColor('rgba(0,0,0,0)')
+    .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-dark.jpg')
+    .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png')
+    .atmosphereColor('#7C3AED')
+    .atmosphereAltitude(0.18)
+    .pointAltitude(0.012)
+    .pointRadius('radio')
+    .pointColor('color')
+    .pointLabel('etiqueta')
+    .arcColor('color')
+    .arcDashLength(0.4)
+    .arcDashGap(0.3)
+    .arcDashAnimateTime(2200)
+    .arcStroke(0.5)
+    .arcAltitude(0.28);
+  const controles = instanciaGlobo.controls();
+  controles.autoRotate = true;
+  controles.autoRotateSpeed = 0.45;
+  controles.enableZoom = true;
+  instanciaGlobo.pointOfView({ lat: 15, lng: 40, altitude: 2.3 }, 0);
+  redimensionarGlobo();
+  window.addEventListener('resize', redimensionarGlobo);
+  globoListo = true;
+  return instanciaGlobo;
+}
+
+function renderGlobo(grupos) {
+  const contenedor = document.getElementById('contenedorGlobo');
+  if (!contenedor) return;
+  const vistaVisible = document.getElementById('vista-mundial')?.classList.contains('activa');
+  if (!vistaVisible && !instanciaGlobo) return; // se creará al abrir la pestaña por primera vez
+  let avisoVacio = contenedor.querySelector('.globo-vacio');
+
+  if (typeof Globe === 'undefined') {
+    if (!avisoVacio) {
+      avisoVacio = document.createElement('div');
+      avisoVacio.className = 'globo-vacio';
+      avisoVacio.textContent = 'No se pudo cargar el módulo del globo (sin conexión).';
+      contenedor.appendChild(avisoVacio);
+    }
+    return;
+  }
+  if (avisoVacio) avisoVacio.remove();
+
+  const globo = asegurarGlobo();
+  if (!globo) return;
+
+  const puntos = [];
+  const arcos = [];
+  Object.keys(grupos).forEach(pais => {
+    const coords = coordenadasDePais(pais);
+    if (!coords) return;
+    const lista = grupos[pais];
+    const nivel = nivelPais(lista);
+    puntos.push({
+      lat: coords[0], lng: coords[1],
+      radio: nivel.etiqueta === 'ESPECIAL+' ? 0.9 : nivel.etiqueta === 'ESPECIAL' ? 0.65 : 0.4,
+      color: nivel.color,
+      etiqueta: `${pais} · ${lista.length} ${lista.length === 1 ? 'incidente' : 'incidentes'} · ${nivel.etiqueta}`
+    });
+    if (nivel.etiqueta !== 'MENOR') {
+      arcos.push({
+        startLat: SEDE_VIGILANCIA.lat, startLng: SEDE_VIGILANCIA.lng,
+        endLat: coords[0], endLng: coords[1], color: nivel.color
+      });
+    }
+  });
+
+  globo.pointsData(puntos);
+  globo.arcsData(arcos);
+}
+
+function renderObjetivosFlotantes(grupos) {
+  const contenedor = document.getElementById('objetivosFlotantes');
+  if (!contenedor) return;
+  const claves = Object.keys(grupos)
+    .filter(p => nivelPais(grupos[p]).etiqueta !== 'MENOR')
+    .sort((a, b) => grupos[b].length - grupos[a].length)
+    .slice(0, 2);
+  const posiciones = [
+    { top: '14%', left: '6%' },
+    { bottom: '10%', right: '6%', textAlign: 'right' }
+  ];
+  contenedor.innerHTML = claves.map((pais, i) => {
+    const lista = grupos[pais];
+    const nivel = nivelPais(lista);
+    const detalle = lista[0].descripcion || lista[0].nombreEntidad || '';
+    const pos = posiciones[i];
+    const estilo = Object.entries(pos).map(([k, v]) => `${k.replace(/[A-Z]/g, m => '-' + m.toLowerCase())}:${v}`).join(';');
+    return `
+      <div class="objetivo-flotante" style="${estilo}">
+        <div class="objetivo-titulo" style="color:${nivel.color};">Objetivo: ${escaparHTML(pais)}</div>
+        <div class="objetivo-detalle">${escaparHTML(detalle).slice(0, 130)}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function agruparActividadPorPais() {
+  const grupos = {};
+  actividadMundial.forEach(a => {
+    const clave = (a.pais || '').trim() || 'País desconocido';
+    (grupos[clave] = grupos[clave] || []).push(a);
+  });
+  return grupos;
+}
+
+function nivelPais(lista) {
+  if (lista.some(a => a.grado === 'Grado especial+')) return { color: '#EF4444', etiqueta: 'ESPECIAL+' };
+  if (lista.some(a => a.grado === 'Grado especial')) return { color: '#7C3AED', etiqueta: 'ESPECIAL' };
+  return { color: '#A1A1AA', etiqueta: 'MENOR' };
+}
+
+function renderMundial() {
+  const contenedorStat = document.getElementById('tarjetasStatMundial');
+  if (!contenedorStat) return;
+  const totalPaises = new Set(actividadMundial.map(a => (a.pais || '').trim()).filter(Boolean)).size;
+  const totalEspecial = actividadMundial.filter(a => a.grado === 'Grado especial').length;
+  const totalEspecialMas = actividadMundial.filter(a => a.grado === 'Grado especial+').length;
+  const totalActivas = actividadMundial.filter(a => a.estado === 'Activa').length;
+
+  contenedorStat.innerHTML = `
+    <div class="stat"><div class="num">${totalPaises}</div><div class="etq">PAÍSES CON ACTIVIDAD</div></div>
+    <div class="stat acento"><div class="num">${totalEspecial}</div><div class="etq">GRADO ESPECIAL</div></div>
+    <div class="stat"><div class="num">${totalEspecialMas}</div><div class="etq">GRADO ESPECIAL+</div></div>
+    <div class="stat"><div class="num">${totalActivas}</div><div class="etq">ACTIVAS AHORA</div></div>
+  `;
+
+  const grupos = agruparActividadPorPais();
+  const claves = Object.keys(grupos).sort((a, b) => grupos[b].length - grupos[a].length);
+  document.getElementById('contadorPaises').textContent = claves.length + (claves.length === 1 ? ' país' : ' países');
+
+  /* Panel izquierdo: dossier del país bajo mayor vigilancia */
+  const panelVigilancia = document.getElementById('panelVigilanciaMundial');
+  if (claves.length > 0) {
+    const paisTop = claves[0];
+    const lista = [...grupos[paisTop]].sort((a, b) => (b.creado || 0) - (a.creado || 0));
+    const nivel = nivelPais(lista);
+    const nEspecialMas = lista.filter(a => a.grado === 'Grado especial+').length;
+    const nEspecial = lista.filter(a => a.grado === 'Grado especial').length;
+    const nOtros = lista.length - nEspecialMas - nEspecial;
+    const nActivas = lista.filter(a => a.estado === 'Activa').length;
+    panelVigilancia.innerHTML = `
+      <div class="dossier-eyebrow">País bajo mayor vigilancia</div>
+      <div class="dossier-nombre" style="color:${nivel.color};">${escaparHTML(paisTop)}</div>
+      <div class="dossier-campo"><span>NIVEL</span><span style="color:${nivel.color};">${nivel.etiqueta}</span></div>
+      <div class="dossier-campo"><span>INCIDENTES</span><span>${lista.length}</span></div>
+      <div class="dossier-campo"><span>ACTIVOS AHORA</span><span>${nActivas}</span></div>
+      <div class="dossier-riesgo">
+        <div><b style="color:var(--rojo-peligro);">${nEspecialMas}</b><span>ESPECIAL+</span></div>
+        <div><b style="color:var(--brasa-viva);">${nEspecial}</b><span>ESPECIAL</span></div>
+        <div><b>${nOtros}</b><span>OTROS</span></div>
+      </div>
+      <div class="dossier-nota">${escaparHTML(lista[0].descripcion || lista[0].nombreEntidad || 'Sin notas adicionales en el registro más reciente.')}</div>
+    `;
+  } else {
+    panelVigilancia.innerHTML = `
+      <div class="dossier-eyebrow">País bajo mayor vigilancia</div>
+      <div class="dossier-vacio">Sin actividad registrada todavía.</div>
+    `;
+  }
+
+  renderGlobo(grupos);
+  renderObjetivosFlotantes(grupos);
+
+  /* Panel derecho: registro de actividad (una tarjeta por incidente, más reciente primero) */
+  const contenedor = document.getElementById('rejillaPaises');
+  const vacio = document.getElementById('vacioMundial');
+  const registros = [...actividadMundial].sort((a, b) => (b.creado || 0) - (a.creado || 0));
+  if (registros.length === 0) {
+    contenedor.innerHTML = '';
+    vacio.style.display = 'block';
+    return;
+  }
+  vacio.style.display = 'none';
+  contenedor.innerHTML = registros.map(a => {
+    const pais = (a.pais || '').trim() || 'País desconocido';
+    const nivel = nivelPais([a]);
+    const colorTipo = COLOR_TIPO_ACTIVIDAD[a.tipo] || 'var(--oro-viejo)';
+    const colorEstado = COLOR_ESTADO_ACTIVIDAD[a.estado] || 'var(--pergamino-tenue)';
+    const fecha = a.fecha ? new Date(a.fecha + 'T00:00:00').toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) : 'sin fecha';
+    return `
+      <div class="tarjeta-operacion" style="--nivel-color:${nivel.color};">
+        <div class="operacion-cabecera">
+          <span class="operacion-pais">${escaparHTML(pais)}</span>
+          ${a.region ? `<span class="operacion-region">· ${escaparHTML(a.region)}</span>` : ''}
+          <span class="fecha-actividad-mini" style="margin-left:auto;">${fecha}</span>
+        </div>
+        <div class="operacion-etiquetas">
+          <span class="tipo-actividad-tag" style="color:${colorTipo};">${escaparHTML(a.tipo)}</span>
+          <span class="tipo-actividad-tag" style="color:${colorEstado};">${escaparHTML(a.estado)}</span>
+        </div>
+        <div class="operacion-titulo">${escaparHTML(a.nombreEntidad || a.grado)}</div>
+        <div class="acciones-entrada">
+          <button data-editar-actividad="${a.id}">editar</button>
+          <button data-eliminar-actividad="${a.id}">eliminar</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  contenedor.querySelectorAll('[data-editar-actividad]').forEach(b => b.addEventListener('click', () => {
+    prepararActividadEdicion(actividadMundial.find(x => x.id === b.dataset.editarActividad));
+  }));
+  contenedor.querySelectorAll('[data-eliminar-actividad]').forEach(b => b.addEventListener('click', () => {
+    if (confirm('¿Eliminar este registro de actividad mundial?')) eliminarActividad(b.dataset.eliminarActividad);
+  }));
+
+  const badge = document.getElementById('badgeMundial');
+  if (badge) {
+    if (totalActivas > 0) { badge.textContent = totalActivas; badge.style.display = 'inline-flex'; }
+    else { badge.style.display = 'none'; }
+  }
+}
+
 /* ---------- BITÁCORA DE INCIDENTES ---------- */
 const PREFIJO_BITACORA = 'incidente:';
 let incidentes = [];
@@ -3517,7 +4524,15 @@ buscadorGlobal.addEventListener('input', () => {
     (i.titulo || '').toLowerCase().includes(q) || (i.descripcion || '').toLowerCase().includes(q)
   ).slice(0, 5);
 
-  if (expCoinciden.length === 0 && misCoinciden.length === 0 && incCoinciden.length === 0) {
+  const objCoinciden = objetosMalditos.filter(o =>
+    (o.nombre || '').toLowerCase().includes(q) || (o.funcion || '').toLowerCase().includes(q)
+  ).slice(0, 5);
+
+  const mundCoinciden = actividadMundial.filter(a =>
+    (a.pais || '').toLowerCase().includes(q) || (a.nombreEntidad || '').toLowerCase().includes(q) || (a.descripcion || '').toLowerCase().includes(q)
+  ).slice(0, 5);
+
+  if (expCoinciden.length === 0 && misCoinciden.length === 0 && incCoinciden.length === 0 && objCoinciden.length === 0 && mundCoinciden.length === 0) {
     resultadosBuscador.innerHTML = '<div class="sin-resultado">Sin coincidencias en el archivo.</div>';
     resultadosBuscador.classList.add('mostrar');
     return;
@@ -3528,9 +4543,17 @@ buscadorGlobal.addEventListener('input', () => {
     html += '<div class="grupo-resultado">Expedientes</div>';
     html += expCoinciden.map(e => `<div class="item-resultado" data-tipo="expediente" data-id="${e.id}"><span class="titulo-resultado">${escaparHTML(e.nombre)}</span><span class="sub-resultado">${escaparHTML(e.rango)}</span></div>`).join('');
   }
+  if (objCoinciden.length) {
+    html += '<div class="grupo-resultado">Objetos malditos</div>';
+    html += objCoinciden.map(o => `<div class="item-resultado" data-tipo="objeto" data-id="${o.id}"><span class="titulo-resultado">${escaparHTML(o.nombre)}</span><span class="sub-resultado">${escaparHTML(o.grado)}</span></div>`).join('');
+  }
   if (misCoinciden.length) {
     html += '<div class="grupo-resultado">Misiones</div>';
     html += misCoinciden.map(m => `<div class="item-resultado" data-tipo="mision" data-id="${m.id}"><span class="titulo-resultado">${escaparHTML(m.titulo)}</span><span class="sub-resultado">${escaparHTML(m.estado)}</span></div>`).join('');
+  }
+  if (mundCoinciden.length) {
+    html += '<div class="grupo-resultado">Actividad mundial</div>';
+    html += mundCoinciden.map(a => `<div class="item-resultado" data-tipo="mundial" data-id="${a.id}"><span class="titulo-resultado">${escaparHTML(a.pais)}</span><span class="sub-resultado">${escaparHTML(a.nombreEntidad || a.tipo)}</span></div>`).join('');
   }
   if (incCoinciden.length) {
     html += '<div class="grupo-resultado">Bitácora</div>';
@@ -3550,6 +4573,10 @@ buscadorGlobal.addEventListener('input', () => {
         irAVista('misiones');
       } else if (tipo === 'incidente') {
         irAVista('bitacora');
+      } else if (tipo === 'objeto') {
+        irAVista('objetos');
+      } else if (tipo === 'mundial') {
+        irAVista('mundial');
       }
       buscadorGlobal.value = '';
       resultadosBuscador.classList.remove('mostrar');
@@ -3585,7 +4612,7 @@ function subvistaGuerraActivaId() {
 
 function cerrarFormulariosAbiertos() {
   let cerrado = false;
-  [formulario, formularioMision, formularioBitacora, formularioEvento, formularioMuerteCivil, formularioZona].forEach(f => {
+  [formulario, formularioMision, formularioBitacora, formularioEvento, formularioMuerteCivil, formularioZona, formularioObjeto, formularioActividad].forEach(f => {
     if (f && f.style.display !== 'none') { f.style.display = 'none'; cerrado = true; }
   });
   return cerrado;
@@ -3594,7 +4621,9 @@ function cerrarFormulariosAbiertos() {
 function abrirNuevoContextual() {
   const vista = vistaActivaId();
   if (vista === 'registro') { document.getElementById('botonNuevo').click(); return true; }
+  if (vista === 'objetos') { document.getElementById('botonNuevoObjeto').click(); return true; }
   if (vista === 'misiones') { document.getElementById('botonNuevaMision').click(); return true; }
+  if (vista === 'mundial') { document.getElementById('botonNuevaActividad').click(); return true; }
   if (vista === 'bitacora') { document.getElementById('botonNuevaEntrada').click(); return true; }
   if (vista === 'guerra') {
     const sub = subvistaGuerraActivaId();
@@ -3607,7 +4636,7 @@ function abrirNuevoContextual() {
 
 let atajoGPendiente = false;
 let atajoGTimeout = null;
-const MAPA_ATAJOS_VISTA = { s: 'resumen', r: 'registro', f: 'facciones', t: 'top', m: 'misiones', g: 'guerra', b: 'bitacora', p: 'perfil' };
+const MAPA_ATAJOS_VISTA = { s: 'resumen', r: 'registro', o: 'objetos', f: 'facciones', t: 'top', m: 'misiones', g: 'guerra', v: 'mundial', b: 'bitacora', p: 'perfil' };
 
 document.addEventListener('keydown', (e) => {
   const activo = document.activeElement;
@@ -3691,7 +4720,7 @@ document.getElementById('botonExportarArchivo').addEventListener('click', async 
   const datos = {
     version: 1,
     exportado: new Date().toISOString(),
-    expedientes, misiones, incidentes, eventos, muertesCiviles, zonas,
+    expedientes, misiones, incidentes, eventos, muertesCiviles, zonas, objetosMalditos, actividadMundial,
     perfil: perfilCrudo ? JSON.parse(perfilCrudo) : null
   };
   const blob = new Blob([JSON.stringify(datos, null, 2)], { type: 'application/json' });
@@ -3719,7 +4748,8 @@ document.getElementById('inputImportarArchivo').addEventListener('change', async
   }
   const totalRegistros = (datos.expedientes || []).length + (datos.misiones || []).length +
     (datos.incidentes || []).length + (datos.eventos || []).length +
-    (datos.muertesCiviles || []).length + (datos.zonas || []).length;
+    (datos.muertesCiviles || []).length + (datos.zonas || []).length +
+    (datos.objetosMalditos || []).length + (datos.actividadMundial || []).length;
   if (!confirm(`Se fusionarán ${totalRegistros} registros del respaldo con el archivo compartido actual. ¿Continuar?`)) return;
 
   const tareas = [];
@@ -3729,6 +4759,8 @@ document.getElementById('inputImportarArchivo').addEventListener('change', async
   (datos.eventos || []).forEach(x => x && x.id && tareas.push(almacenGuardar(PREFIJO_EVENTOS + x.id, JSON.stringify(x), true)));
   (datos.muertesCiviles || []).forEach(x => x && x.id && tareas.push(almacenGuardar(PREFIJO_CIVILES + x.id, JSON.stringify(x), true)));
   (datos.zonas || []).forEach(x => x && x.id && tareas.push(almacenGuardar(PREFIJO_ZONAS + x.id, JSON.stringify(x), true)));
+  (datos.objetosMalditos || []).forEach(x => x && x.id && tareas.push(almacenGuardar(PREFIJO_OBJETOS + x.id, JSON.stringify(x), true)));
+  (datos.actividadMundial || []).forEach(x => x && x.id && tareas.push(almacenGuardar(PREFIJO_MUNDIAL + x.id, JSON.stringify(x), true)));
   await Promise.all(tareas);
   await iniciar();
   mostrarAviso('Respaldo importado y fusionado con el archivo.');
@@ -3804,8 +4836,10 @@ inputContrasenaModal.addEventListener('keydown', (e) => {
 
 const SELECTOR_ACCIONES_PROTEGIDAS = [
   '#botonNuevo', '#botonEditarExp', '#botonEliminarExp',
+  '#botonNuevoObjeto', '[data-editar-objeto]', '[data-eliminar-objeto]',
   '#botonNuevoEvento', '#botonNuevaMuerteCivil', '#botonNuevaZona', '#botonNuevaEntrada',
   '#botonNuevaMision', '[data-editar-mision]', '[data-eliminar-mision]',
+  '#botonNuevaActividad', '[data-editar-actividad]', '[data-eliminar-actividad]',
   '#inputImportarArchivo', 'label[for="inputImportarArchivo"]'
 ].join(', ');
 
@@ -3825,13 +4859,17 @@ async function iniciar() {
   try {
     await cargarExpedientes();
     console.log('[archivo] expedientes cargados:', expedientes.length);
+    await cargarObjetos();
     await cargarIncidentes();
     await cargarEventos();
     await cargarMuertesCiviles();
     await cargarZonas();
     await cargarMisiones();
+    await cargarActividadMundial();
+    await sembrarActividadMundial();
     await cargarPerfil();
     renderMisiones();
+    renderMundial();
     console.log('[archivo] iniciar(): listo.');
   } catch (e) {
     console.error('[archivo] Error durante iniciar():', e);
